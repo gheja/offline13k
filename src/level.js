@@ -17,7 +17,7 @@ const OBJ_OBSTACLE_LOW = 4;
 const OBJ_OBSTACLE_HIGH = 5;
 
 const TILE_COLORS = [ "#222", "#d0d", "#eb2", "#888", "#ccc" ];
-const OBJ_COLORS = [ "rgba(0,0,0,0)", "#f0f", "rgba(0,0,0,0)", "#e00", "#ee0", "#8e0" ];
+const OBJ_COLORS = [ "rgba(0,0,0,0)", "#f0f", "rgba(0,0,0,0)", "#e00", "#0ae", "#ea0" ];
 
 class Level
 {
