@@ -20,6 +20,48 @@ class GameObjectPlayer extends GameObject
 		this.targetMapX = 7;
 	}
 	
+	updateObstacles()
+	{
+		let i;
+		
+		for (i=0; i<_obstacles.length; i++)
+		{
+			_obstacles[i].update();
+		}
+	}
+	
+	checkCollision()
+	{
+		let i;
+		
+		for (i=0; i<_obstacles.length; i++)
+		{
+			if (_obstacles[i].distance == 0)
+			{
+				if (this.timeDuck == 0 && _obstacles[i].blockUp)
+				{
+					console.log("hit");
+				}
+				else if (this.timeJump == 0 && _obstacles[i].blockDown)
+				{
+					console.log("hit");
+				}
+				else
+				{
+					console.log("almost");
+				}
+			}
+			else if (_obstacles[i].distance <= 2)
+			{
+				// if it is in the current or next lane
+				if (Math.round(this.mapX) == Math.round(_obstacles[i].mapX) || Math.round(this.targetMapX) == Math.round(_obstacles[i].mapX))
+				{
+					console.log("near");
+				}
+			}
+		}
+	}
+	
 	tick()
 	{
 		let a, b, mapXFraction;
@@ -85,5 +127,8 @@ class GameObjectPlayer extends GameObject
 		
 		this.mapY += this.speedY;
 		this.mapX += this.speedX;
+		
+		this.updateObstacles();
+		this.checkCollision();
 	}
 }
