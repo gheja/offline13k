@@ -56,7 +56,18 @@ class Level
 					
 					if (rand1.chance(0.2))
 					{
-						b[rand2.randomInteger(5, 9)] = OBJ_OBSTACLE;
+						if (rand1.chance(0.25))
+						{
+							b[rand2.randomInteger(5, 9)] = OBJ_OBSTACLE;
+						}
+						else if (rand1.chance(0.5))
+						{
+							b[rand2.randomInteger(5, 9)] = OBJ_OBSTACLE_LOW;
+						}
+						else
+						{
+							b[rand2.randomInteger(5, 9)] = OBJ_OBSTACLE_HIGH;
+						}
 					}
 					
 					if (rand1.chance(0.1))
