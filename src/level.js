@@ -76,7 +76,7 @@ class Level
 			{
 				if (this.mapObjects[y][x] == OBJ_UNDECIDED)
 				{
-					this.mapObjects[y][x] = OBJ_NONE
+					this.mapObjects[y][x] = OBJ_NONE;
 				}
 			}
 		}
