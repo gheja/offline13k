@@ -50,6 +50,7 @@ function init()
 	tickInit();
 	
 	_level.generate();
+	_level.load();
 	
 	window.setInterval(frame, 1000 / FPS);
 }

@@ -92,4 +92,23 @@ class Level
 			}
 		}
 	}
+	
+	load()
+	{
+		let x, y, a;
+		
+		_obstacles = [];
+		
+		for (y=0; y<LEVEL_HEIGHT; y++)
+		{
+			for (x=0; x<LEVEL_WIDTH; x++)
+			{
+				a = this.mapObjects[y][x];
+				if (a != OBJ_NONE)
+				{
+					_obstacles.push(new GameObjectObstacle(x, y, 0.5, a == OBJ_OBSTACLE || a == OBJ_OBSTACLE_LOW, a == OBJ_OBSTACLE || a == OBJ_OBSTACLE_HIGH));
+				}
+			}
+		}
+	}
 }
