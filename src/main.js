@@ -6,6 +6,7 @@ let _input;
 let _gameSpeed;
 let _ticks;
 let _nextTickTime;
+let _obstacles;
 
 function tick()
 {
