@@ -17,7 +17,6 @@ function tick()
 		_gameSpeed *= 1.02;
 	}
 	
-	debugDraw();
 	_player.tick();
 }
 
@@ -37,6 +36,8 @@ function frame()
 		tick();
 		_nextTickTime += 1000 / TPS;
 	}
+	
+	debugDraw();
 }
 
 function init()
