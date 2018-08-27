@@ -30,11 +30,6 @@ function _merge(obj, settings)
 	}
 }
 
-function _z(x)
-{
-	return _gfx.zoomLevel * x;
-}
-
 function clamp(min, max, x)
 {
 	return Math.min(Math.max(x, min), max);
