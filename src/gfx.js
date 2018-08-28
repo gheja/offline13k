@@ -7,6 +7,8 @@ class Gfx
 		this.engine = null;
 		this.scene1 = null;
 		this.canvas = document.getElementById("c");
+		
+		this.objectPrototypes = {};
 	}
 	
 	init()
