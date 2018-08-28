@@ -7,6 +7,7 @@ let _gameSpeed;
 let _ticks;
 let _nextTickTime;
 let _obstacles;
+let _gfx;
 
 function tick()
 {
@@ -47,6 +48,8 @@ function init()
 	_input = new InputKeyboard();
 	_gameSpeed = 0.05;
 	_ticks = 0;
+	_gfx = new Gfx();
+	_gfx.init();
 	
 	tickInit();
 	

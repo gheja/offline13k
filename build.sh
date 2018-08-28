@@ -12,7 +12,7 @@ cd ./build/stage1
 {
 	echo "\"use strict\";"
 	
-	filenames=`cat ../../src/index.html | grep -Eo '<script type="text/javascript" src="[^"]+"' | cut -d \" -f 4`
+	filenames=`cat ../../src/index.html | grep -Eo '<script type="text/javascript" src="[^"]+"' | cut -d \" -f 4 | grep -vE '3rdparty'`
 	
 	for a in $filenames; do
 		cat "../../src/$a"
@@ -37,6 +37,7 @@ fi
 
 java -jar ../compiler/compiler.jar \
 	--compilation_level ADVANCED_OPTIMIZATIONS \
+	--externs ../../src/3rdparty/babylon.ext.js \
 	--js b.js \
 	--js_output_file c.js \
 	--logging_level FINEST \
