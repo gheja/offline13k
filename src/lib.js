@@ -88,3 +88,8 @@ function fixCanvasContextSmoothing(ctx)
 	ctx.webkitImageSmoothingEnabled = false;
 	ctx.msImageSmoothingEnabled = false;
 }
+
+function _rotation(x)
+{
+	return Math.PI * 2 * x;
+}
