@@ -40,15 +40,26 @@ java -jar ../compiler/compiler.jar \
 	--externs ../../src/3rdparty/babylon.ext.js \
 	--js b.js \
 	--js_output_file c.js \
+	--create_source_map c.js.map \
+	--variable_renaming_report c.js.vars \
 	--logging_level FINEST \
 	--warning_level VERBOSE \
 	--formatting SINGLE_QUOTES \
+	--formatting PRETTY_PRINT \
+	--summary_detail_level 3
+
+java -jar ../compiler/compiler.jar \
+	--compilation_level WHITESPACE_ONLY \
+	--js c.js \
+	--js_output_file d.js \
+	--logging_level FINEST \
+	--warning_level VERBOSE \
 	--summary_detail_level 3
 
 cat ../../src/index.min.html | sed \
 	-e '/<!-- insert minified javascript here -->/{' \
 	-e 'i <script>' \
-	-e 'r c.js' \
+	-e 'r d.js' \
 	-e 'a </script>' \
 	-e 'd}' \
 	> index.html
