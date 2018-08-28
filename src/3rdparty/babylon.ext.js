@@ -1,3 +1,5 @@
+// based on https://github.com/cljsjs/packages/tree/master/babylon/resources/cljsjs/babylon/common
+
 var BABYLON = {
 	"Color3": function () {},
 	"Color4": function () {},
@@ -320,5 +322,17 @@ var BABYLON = {
 	"AnaglyphGamepadCamera": function () {},
 	"StereoscopicFreeCamera": function () {},
 	"StereoscopicArcRotateCamera": function () {},
-	"StereoscopicGamepadCamera": function () {}
+	"StereoscopicGamepadCamera": function () {},
+	"MeshBuilder": function() {
+		return {
+			"CreateBox": function() {
+				return {
+					"setEnabled": function() {},
+					"createInstance": function() {},
+					"position": { "x": 0, "y": 0, "z": 0 },
+					"rotation": { "x": 0, "y": 0, "z": 0 }
+				};
+			}
+		};
+	}
 }
