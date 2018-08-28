@@ -18,6 +18,37 @@ class Gfx
 		bindEvent(window, "resize", this.onResize.bind(this));
 	}
 	
+	createObjectPrototype(definition, key)
+	{
+		let a;
+		
+		a = BABYLON.MeshBuilder.CreateBox("", { "size": 2 }, this.scene1);
+		// a.material = _material;
+		a.setEnabled(false);
+		
+		this.objectPrototypes[key] = a;
+	}
+	
+	placeObject(key, position, rotation)
+	{
+		let a;
+		
+		if (DEBUG)
+		{
+			if (!this.objectPrototypes[key])
+			{
+				throw "Could not find object by key \"" + key + "\"";
+			}
+		}
+		
+		a = this.objectPrototypes[key].createInstance();
+		_merge(a.position, position);
+		_merge(a.rotation, rotation);
+		// _shadowGenerator.addShadowCaster(a, true);
+		
+		return a;
+	}
+	
 	createScene()
 	{
 		let scene, plane, light1, light2, camera, mat2, sphere, vrHelper;
@@ -55,6 +86,10 @@ class Gfx
 		
 		// Enable VR
 		vrHelper = scene.createDefaultVRExperience({ "createDeviceOrientationCamera": true });
+		
+		this.createObjectPrototype("", "a");
+		this.placeObject("a", { x: 3, y: 4, z: 10 }, {});
+		this.placeObject("a", { x: 2, y: 2, z: 15 }, {});
 		
 		return scene;
 	}
