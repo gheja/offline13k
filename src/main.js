@@ -59,4 +59,4 @@ function init()
 	window.setInterval(frame, 1000 / FPS);
 }
 
-window.onload = init;
+bindEvent(window, "load", init);
