@@ -47,8 +47,6 @@ function frame()
 		tick();
 		_nextTickTime += 1000 / TPS;
 	}
-	
-	debugDraw();
 }
 
 function init()

@@ -12,11 +12,11 @@ cd ./build/stage1
 {
 	echo "\"use strict\";"
 	
-	filenames=`cat ../../src/index.html | grep -Eo '<script type="text/javascript" src="[^"]+"' | cut -d \" -f 4 | grep -vE '3rdparty'`
+	filenames=`cat ../../src/index.html | grep -Eo '<script type="text/javascript" src="[^"]+"' | cut -d \" -f 4 | grep -vE '3rdparty|debug'`
 	
 	for a in $filenames; do
 		cat "../../src/$a"
-	done | grep -vE '^\"use strict'
+	done | grep -vE '^\"use strict' | sed -r 's/const DEV_BUILD = true/const DEV_BUILD = false/g'
 } > a.js
 
 cp a.js b.js
