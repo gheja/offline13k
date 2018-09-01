@@ -58,7 +58,7 @@ class Gfx
 	
 	createScene()
 	{
-		let scene, plane, light1, light2, camera, mat2, mat3, sphere, vrHelper, a;
+		let scene, plane, light1, light2, camera, mat3, a;
 		
 		scene = new BABYLON.Scene(this.engine);
 		scene.clearColor = new BABYLON.Color3(98/255, 193/255, 229/255);
