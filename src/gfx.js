@@ -24,9 +24,12 @@ class Gfx
 	{
 		let a;
 		
-		a = BABYLON.MeshBuilder.CreateBox("", { "size": 2 }, this.scene1);
-		// a.material = _material;
+		a = BABYLON.MeshBuilder.CreateBox("", {}, this.scene1);
+		a.game = _copy(definition);
+		a.scaling.x = 1;
+		a.scaling.y = a.game.height;
 		a.setEnabled(false);
+		a.material = this.mat2;
 		
 		this.objectPrototypes[key] = a;
 	}
@@ -46,6 +49,7 @@ class Gfx
 		a = this.objectPrototypes[key].createInstance();
 		_merge(a.position, position);
 		_merge(a.rotation, rotation);
+		a.position.y += this.objectPrototypes[key].game.z + this.objectPrototypes[key].game.height / 2;
 		// _shadowGenerator.addShadowCaster(a, true);
 		
 		return a;
