@@ -9,6 +9,8 @@ let _nextTickTime;
 let _obstacles;
 let _gfx;
 
+let _windowHidden = false;
+
 function tick()
 {
 	_ticks++;
@@ -29,6 +31,14 @@ function tickInit()
 function frame()
 {
 	let now;
+	
+	if (DEV_BUILD)
+	{
+		if (_windowHidden)
+		{
+			return;
+		}
+	}
 	
 	now = performance.now();
 	
@@ -58,6 +68,12 @@ function init()
 	_level.load();
 	
 	window.setInterval(frame, 1000 / FPS);
+	if (DEV_BUILD)
+	{
+		bindEvent(window, "focus", function() { _windowHidden = false; });
+		bindEvent(window, "blur", function() { _windowHidden = true; });
+	}
+
 }
 
 bindEvent(window, "load", init);

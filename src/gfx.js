@@ -39,7 +39,7 @@ class Gfx
 	{
 		let a;
 		
-		if (DEBUG)
+		if (DEV_BUILD)
 		{
 			if (!this.objectPrototypes[key])
 			{
@@ -138,6 +138,15 @@ class Gfx
 	
 	onRenderLoop()
 	{
+		if (DEV_BUILD)
+		{
+			if (_windowHidden)
+			{
+				return;
+			}
+		}
+		
+		frame();
 		this.scene1.render();
 	}
 }
