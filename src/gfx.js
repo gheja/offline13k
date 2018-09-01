@@ -93,9 +93,20 @@ class Gfx
 		// Enable VR
 		vrHelper = scene.createDefaultVRExperience({ "createDeviceOrientationCamera": true });
 		
-		this.createObjectPrototype("", "a");
-		this.placeObject("a", { x: 3, y: 4, z: 10 }, {});
-		this.placeObject("a", { x: 2, y: 2, z: 15 }, {});
+		this.createObjectPrototype({ height: 1, z: 0 }, "block");
+		this.createObjectPrototype({ height: 0.3, z: 0.7 }, "upper");
+		this.createObjectPrototype({ height: 0.3, z: 0 }, "lower");
+		this.createObjectPrototype({ height: 4, z: 0 }, "building");
+		
+		// player object
+		a = BABYLON.MeshBuilder.CreateBox("", {}, this.scene1);
+		a.game = { height: 0.2, z: 0.2 };
+		a.scaling.x = 0.5;
+		a.scaling.y = 0.5;
+		a.scaling.z = 0.5;
+		a.setEnabled(false);
+		a.material = this.mat3;
+		this.objectPrototypes["player"] = a;
 		
 		return scene;
 	}
