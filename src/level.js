@@ -39,21 +39,21 @@ class Level
 					{
 						if (rand1.chance(0.25))
 						{
-							b[rand2.randomInteger(5, 9)] = OBJ_OBSTACLE;
+							b[rand2.randomInteger(5, 9)] = OBJ_OBSTACLE_FULL;
 						}
 						else if (rand1.chance(0.5))
 						{
-							b[rand2.randomInteger(5, 9)] = OBJ_OBSTACLE_LOW;
+							b[rand2.randomInteger(5, 9)] = OBJ_OBSTACLE_LOWER;
 						}
 						else
 						{
-							b[rand2.randomInteger(5, 9)] = OBJ_OBSTACLE_HIGH;
+							b[rand2.randomInteger(5, 9)] = OBJ_OBSTACLE_UPPER;
 						}
 					}
 					
 					if (rand1.chance(0.1))
 					{
-						b[rand2.randomInteger(5, 9)] = OBJ_OBSTACLE;
+						b[rand2.randomInteger(5, 9)] = OBJ_OBSTACLE_FULL;
 					}
 				}
 				

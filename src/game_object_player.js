@@ -24,7 +24,7 @@ class GameObjectPlayer extends GameObject
 	
 	init()
 	{
-		this.gfxObject = _gfx.placeObject(MODEL_PLAYER, {}, {});
+		this.gfxObject = _gfx.placeObject(OBJ_PLAYER, {}, {});
 	}
 	
 	updateObstacles()
