@@ -8,6 +8,7 @@ class Gfx
 		this.scene1 = null;
 		this.canvas = document.getElementById("c");
 		this.vr = null;
+		this.mat2 = null;
 		
 		this.objectPrototypes = {};
 	}
