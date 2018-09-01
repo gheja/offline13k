@@ -58,7 +58,7 @@ class Gfx
 	
 	createScene()
 	{
-		let scene, plane, light1, light2, camera, mat2, sphere, vrHelper;
+		let scene, plane, light1, light2, camera, mat2, mat3, sphere, vrHelper, a;
 		
 		scene = new BABYLON.Scene(this.engine);
 		scene.clearColor = new BABYLON.Color3(98/255, 193/255, 229/255);
@@ -69,14 +69,15 @@ class Gfx
 		light1 = new BABYLON.PointLight("", new BABYLON.Vector3(0, 10, 60), scene);
 		light1.intensity = 0.8;
 		
-		light2 = new BABYLON.PointLight("", new BABYLON.Vector3(0, 100, 200), scene);
+		light2 = new BABYLON.PointLight("", new BABYLON.Vector3(0, 100, -100), scene);
 		light2.intensity = 0.6;
 		
-		camera = new BABYLON.FreeCamera("", new BABYLON.Vector3(0, 10, -10), scene);
-		camera.attachControl(this.canvas, true);
+		camera = new BABYLON.FreeCamera("", new BABYLON.Vector3(0, 1.7, -20), scene);
+		camera.rotation.x = _rotation(0.03);
 		
-		mat2 = new BABYLON.StandardMaterial("sa", scene);
-		mat2.diffuseColor = new BABYLON.Color3(0.2, 0.8, 1.0);
+		this.mat2 = new BABYLON.StandardMaterial("sa", scene);
+		this.mat2.ambientColor = new BABYLON.Color3(0.2 / 5, 0.8 / 5, 1.0 / 5);
+		this.mat2.diffuseColor = new BABYLON.Color3(0.2, 0.8, 1.0);
 		
 		// material = new BABYLON.StandardMaterial("sphere material", scene);
 		// // material.alpha = 0.5;
@@ -90,7 +91,7 @@ class Gfx
 		plane.position.y = 0;
 		plane.position.z = 20;
 		// plane.receiveShadows = true;
-		plane.material = mat2;
+		plane.material = this.mat2;
 		plane.rotation.x = _rotation(0.25);
 		
 		scene.onBeforeRenderObservable.add(this.onUpdate.bind(this));
@@ -102,6 +103,9 @@ class Gfx
 		this.createObjectPrototype({ height: 0.3, z: 0.7 }, "upper");
 		this.createObjectPrototype({ height: 0.3, z: 0 }, "lower");
 		this.createObjectPrototype({ height: 4, z: 0 }, "building");
+		
+		mat3 = new BABYLON.StandardMaterial("sa", scene);
+		mat3.diffuseColor = new BABYLON.Color3(0.8, 0.2, 0.1);
 		
 		// player object
 		a = BABYLON.MeshBuilder.CreateBox("", {}, this.scene1);
