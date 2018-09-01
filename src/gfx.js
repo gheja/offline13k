@@ -23,6 +23,21 @@ class Gfx
 		bindEvent(window, "resize", this.onResize.bind(this));
 	}
 	
+	quickMaterial(r, g, b, a, scene)
+	{
+		let material;
+		
+		material = new BABYLON.StandardMaterial("", scene);
+		material.diffuseColor = new BABYLON.Color3(r, g, b);
+		material.ambientColor = new BABYLON.Color3(r * 0.2, g * 0.2, b * 0.2);
+		if (a !== undefined)
+		{
+			material.alpha = a;
+		}
+		
+		return material;
+	}
+	
 	createObjectPrototype(definition, key)
 	{
 		let a;
@@ -60,13 +75,12 @@ class Gfx
 	
 	createScene()
 	{
-		let scene, plane, light1, light2, camera, mat3, a;
+		let scene, plane, light1, light2, camera, a;
 		
 		scene = new BABYLON.Scene(this.engine);
 		scene.clearColor = new BABYLON.Color3(98/255, 193/255, 229/255);
 		scene.ambientColor = new BABYLON.Color3(98/255, 193/255, 229/255);
 		scene.fogColor = new BABYLON.Color3(98/255, 193/255, 229/255);
-		// scene.ambientColor = new BABYLON.Color3(0.25, 0.25, 0.25);
 		
 		light1 = new BABYLON.PointLight("", new BABYLON.Vector3(0, 10, 60), scene);
 		light1.intensity = 0.8;
@@ -77,13 +91,7 @@ class Gfx
 		camera = new BABYLON.FreeCamera("", new BABYLON.Vector3(0, 1.7, -20), scene);
 		camera.rotation.x = _rotation(0.03);
 		
-		this.mat2 = new BABYLON.StandardMaterial("sa", scene);
-		this.mat2.ambientColor = new BABYLON.Color3(0.2 / 5, 0.8 / 5, 1.0 / 5);
-		this.mat2.diffuseColor = new BABYLON.Color3(0.2, 0.8, 1.0);
-		
-		// material = new BABYLON.StandardMaterial("sphere material", scene);
-		// // material.alpha = 0.5;
-		// material.backFaceCulling = true;
+		this.mat2 = this.quickMaterial(0.2, 0.8, 1.0);
 		
 		// _shadowGenerator = new BABYLON.ShadowGenerator(1024, _light);
 		// _shadowGenerator.useBlurExponentialShadowMap = true;
@@ -106,9 +114,6 @@ class Gfx
 		this.createObjectPrototype({ height: 0.3, z: 0 }, "lower");
 		this.createObjectPrototype({ height: 4, z: 0 }, "building");
 		
-		mat3 = new BABYLON.StandardMaterial("sa", scene);
-		mat3.diffuseColor = new BABYLON.Color3(0.8, 0.2, 0.1);
-		
 		// player object
 		a = BABYLON.MeshBuilder.CreateBox("", {}, this.scene1);
 		a.game = { height: 0.2, z: 0.2 };
@@ -116,7 +121,7 @@ class Gfx
 		a.scaling.y = 0.5;
 		a.scaling.z = 0.5;
 		a.setEnabled(false);
-		a.material = this.mat3;
+		a.material = this.quickMaterial(0.9, 0.2, 0.1);
 		this.objectPrototypes["player"] = a;
 		
 		scene.fogMode = BABYLON.Scene.FOGMODE_LINEAR;
