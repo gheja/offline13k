@@ -90,6 +90,7 @@ class Gfx
 		
 		camera = new BABYLON.FreeCamera("", new BABYLON.Vector3(0, 1.7, -20), scene);
 		camera.rotation.x = _rotation(0.03);
+		camera.minZ = 0.2;
 		
 		this.mat2 = this.quickMaterial(0.2, 0.8, 1.0);
 		
