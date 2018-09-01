@@ -72,11 +72,11 @@ class GameObjectPlayer extends GameObject
 		
 		if (mapXFraction < 0.001)
 		{
-			if (a.x > 0.5)
+			if (a.x > 0.5 && this.mapX <= 7)
 			{
 				this.targetMapX = Math.round(this.mapX) + 1;
 			}
-			else if (a.x < -0.5)
+			else if (a.x < -0.5 && this.mapX >= 6)
 			{
 				this.targetMapX = Math.round(this.mapX) - 1;
 			}
