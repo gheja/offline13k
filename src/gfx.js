@@ -93,7 +93,7 @@ class Gfx
 		plane.material = mat2;
 		plane.rotation.x = _rotation(0.25);
 		
-		// scene.onBeforeRenderObservable.add(onUpdate);
+		scene.onBeforeRenderObservable.add(this.onUpdate.bind(this));
 		
 		// Enable VR
 		this.vr = scene.createDefaultVRExperience();
