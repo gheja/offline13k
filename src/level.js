@@ -85,7 +85,8 @@ class Level
 			for (x=0; x<LEVEL_WIDTH; x++)
 			{
 				a = this.mapObjects[y][x];
-				if (a != OBJ_NONE)
+				
+				if (a >= OBJ_MODEL_FIRST && a <= OBJ_MODEL_LAST)
 				{
 					_obstacles.push(new GameObjectObstacle(x, y, 0.5, a));
 				}
