@@ -7,6 +7,7 @@ class Gfx
 		this.engine = null;
 		this.scene1 = null;
 		this.canvas = document.getElementById("c");
+		this.vr = null;
 		
 		this.objectPrototypes = {};
 	}
@@ -60,6 +61,10 @@ class Gfx
 		let scene, plane, light1, light2, camera, mat2, sphere, vrHelper;
 		
 		scene = new BABYLON.Scene(this.engine);
+		scene.clearColor = new BABYLON.Color3(98/255, 193/255, 229/255);
+		scene.ambientColor = new BABYLON.Color3(98/255, 193/255, 229/255);
+		scene.fogColor = new BABYLON.Color3(98/255, 193/255, 229/255);
+		// scene.ambientColor = new BABYLON.Color3(0.25, 0.25, 0.25);
 		
 		light1 = new BABYLON.PointLight("", new BABYLON.Vector3(0, 10, 60), scene);
 		light1.intensity = 0.8;
@@ -91,7 +96,7 @@ class Gfx
 		// scene.onBeforeRenderObservable.add(onUpdate);
 		
 		// Enable VR
-		vrHelper = scene.createDefaultVRExperience({ "createDeviceOrientationCamera": true });
+		this.vr = scene.createDefaultVRExperience();
 		
 		this.createObjectPrototype({ height: 1, z: 0 }, "block");
 		this.createObjectPrototype({ height: 0.3, z: 0.7 }, "upper");
