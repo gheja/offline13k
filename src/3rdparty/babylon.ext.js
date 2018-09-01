@@ -163,6 +163,9 @@ var BABYLON = {
 			"fogMode": 0,
 			"fogStart": 0,
 			"fogEnd": 0,
+			"ambientColor": 0,
+			"clearColor": 0,
+			"fogColor": 0,
 			"activeCamera": function() {
 				return {
 					"clear": function() {},
@@ -176,7 +179,12 @@ var BABYLON = {
 	"_InstancesBatch": function () {},
 	"Mesh": function () {
 		return {
-			"CreatePlane": function() {}
+			"CreatePlane": function() {
+				return {
+					"receiveShadows": 0,
+					"blurKernel": 0
+				};
+			}
 		};
 	},
 	"SubMesh": function () {},
