@@ -128,6 +128,11 @@ class GameObjectPlayer extends GameObject
 		this.mapY += this.speedY;
 		this.mapX += this.speedX;
 		
+		if (this.mapY > 100)
+		{
+			this.mapY = 0;
+		}
+		
 		this.updateObstacles();
 		this.checkCollision();
 	}
