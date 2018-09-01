@@ -117,6 +117,10 @@ class Gfx
 		a.material = this.mat3;
 		this.objectPrototypes["player"] = a;
 		
+		scene.fogMode = BABYLON.Scene.FOGMODE_LINEAR;
+		scene.fogStart = 20;
+		scene.fogEnd = 70;
+		
 		return scene;
 	}
 	
