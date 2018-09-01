@@ -15,6 +15,7 @@ const OBJ_NONE = 2;
 const OBJ_OBSTACLE = 3;
 const OBJ_OBSTACLE_LOW = 4;
 const OBJ_OBSTACLE_HIGH = 5;
+const OBJ_EDGE = 6;
 
 const TILE_COLORS = [ "#222", "#d0d", "#eb2", "#888", "#ccc" ];
 const OBJ_COLORS = [ "rgba(0,0,0,0)", "#f0f", "rgba(0,0,0,0)", "#e00", "#0ae", "#ea0" ];
@@ -38,7 +39,7 @@ class Level
 		this.mapObjects = [];
 		
 		baseSegment =  [ 0, 0, 0, 0, 2, 4, 3, 3, 4, 2, 0, 0, 0, 0 ];
-		baseSegment2 = [ 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0 ];
+		baseSegment2 = [ 0, 0, 0, 0, 6, 1, 1, 1, 1, 6, 0, 0, 0, 0 ];
 		
 		for (y=0; y<LEVEL_HEIGHT; y++)
 		{
@@ -106,7 +107,7 @@ class Level
 				a = this.mapObjects[y][x];
 				if (a != OBJ_NONE)
 				{
-					_obstacles.push(new GameObjectObstacle(x, y, 0.5, a == OBJ_OBSTACLE || a == OBJ_OBSTACLE_LOW, a == OBJ_OBSTACLE || a == OBJ_OBSTACLE_HIGH));
+					_obstacles.push(new GameObjectObstacle(x, y, 0.5, a));
 				}
 			}
 		}

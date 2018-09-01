@@ -124,6 +124,13 @@ class Gfx
 		return scene;
 	}
 	
+	onUpdate()
+	{
+		let a, b;
+		
+		_player.updateObjects();
+	}
+	
 	onResize()
 	{
 		this.engine.resize();

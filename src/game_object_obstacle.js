@@ -2,7 +2,7 @@
 
 class GameObjectObstacle extends GameObject
 {
-	constructor(x, y, r, a, b)
+	constructor(x, y, r, a)
 	{
 		super();
 		
@@ -12,8 +12,27 @@ class GameObjectObstacle extends GameObject
 		this.distance = 0;
 		this.paused = false;
 		
-		this.blockDown = a;
-		this.blockUp = b;
+		this.blockDown = a == OBJ_OBSTACLE_LOW || a == OBJ_OBSTACLE;
+		this.blockUp = a == OBJ_OBSTACLE_HIGH || a == OBJ_OBSTACLE;
+		
+		switch (a)
+		{
+			case OBJ_OBSTACLE:
+				this.gfxObject = _gfx.placeObject("block", { x: x, y: 0, z: y }, {});
+			break;
+			
+			case OBJ_OBSTACLE_LOW:
+				this.gfxObject = _gfx.placeObject("lower", { x: x, y: 0, z: y }, {});
+			break;
+			
+			case OBJ_OBSTACLE_HIGH:
+				this.gfxObject = _gfx.placeObject("upper", { x: x, y: 0, z: y }, {});
+			break;
+			
+			case OBJ_EDGE:
+				this.gfxObject = _gfx.placeObject("building", { x: x, y: 0, z: y }, {});
+			break;
+		}
 	}
 	
 	tick()

@@ -18,6 +18,13 @@ class GameObjectPlayer extends GameObject
 		this.timeJump = 0;
 		this.timeDuck = 0;
 		this.targetMapX = 7;
+		
+		this.gfxObject = null;
+	}
+	
+	init()
+	{
+		this.gfxObject = _gfx.placeObject("player", {}, {});
 	}
 	
 	updateObstacles()
@@ -60,6 +67,25 @@ class GameObjectPlayer extends GameObject
 				}
 			}
 		}
+	}
+	
+	updateObjects()
+	{
+		if (_gfx.vr.isInVRMode)
+		{
+			_gfx.vr.currentVRCamera.position.x = this.mapX;
+			_gfx.vr.currentVRCamera.position.z = this.mapY - 1.5;
+			_gfx.vr.currentVRCamera.position.y = 1.7;
+			_gfx.vr.currentVRCamera.minZ = 0.2;
+		}
+		else
+		{
+			_gfx.scene1.activeCamera.position.x = this.mapX;
+			_gfx.scene1.activeCamera.position.z = this.mapY - 3;
+		}
+		
+		this.gfxObject.position.x = this.mapX;
+		this.gfxObject.position.z = this.mapY;
 	}
 	
 	tick()
