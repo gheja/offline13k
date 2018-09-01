@@ -87,7 +87,7 @@ class Gfx
 		// _shadowGenerator.blurKernel = 32;
 		
 		plane = BABYLON.Mesh.CreatePlane("", 100, scene);
-		plane.position.y = -10;
+		plane.position.y = 0;
 		plane.position.z = 20;
 		// plane.receiveShadows = true;
 		plane.material = mat2;
