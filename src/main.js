@@ -53,6 +53,7 @@ function init()
 	
 	tickInit();
 	
+	_player.init();
 	_level.generate();
 	_level.load();
 	
