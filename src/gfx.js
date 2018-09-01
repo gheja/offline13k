@@ -31,10 +31,7 @@ class Gfx
 		material = new BABYLON.StandardMaterial("", scene);
 		material.diffuseColor = new BABYLON.Color3(r, g, b);
 		material.ambientColor = new BABYLON.Color3(r * 0.2, g * 0.2, b * 0.2);
-		if (a !== undefined)
-		{
-			material.alpha = a;
-		}
+		material.alpha = a;
 		
 		return material;
 	}
@@ -79,9 +76,9 @@ class Gfx
 		let scene, plane, light1, light2, camera, a;
 		
 		scene = new BABYLON.Scene(this.engine);
-		scene.clearColor = new BABYLON.Color3(98/255, 193/255, 229/255);
-		scene.ambientColor = new BABYLON.Color3(98/255, 193/255, 229/255);
-		scene.fogColor = new BABYLON.Color3(98/255, 193/255, 229/255);
+		scene.clearColor = new BABYLON.Color3(0.38, 0.75, 0.9);
+		scene.ambientColor = new BABYLON.Color3(0.38, 0.75, 0.9);
+		scene.fogColor = new BABYLON.Color3(0.38, 0.75, 0.9);
 		
 		light1 = new BABYLON.PointLight("", new BABYLON.Vector3(0, 10, 60), scene);
 		light1.intensity = 0.8;
@@ -93,7 +90,7 @@ class Gfx
 		camera.rotation.x = _rotation(0.03);
 		camera.minZ = 0.2;
 		
-		this.mat2 = this.quickMaterial(0.2, 0.8, 1.0);
+		this.mat2 = this.quickMaterial(0.2, 0.8, 1.0, 1.0, scene);
 		
 		// _shadowGenerator = new BABYLON.ShadowGenerator(1024, _light);
 		// _shadowGenerator.useBlurExponentialShadowMap = true;
