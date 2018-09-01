@@ -1,5 +1,15 @@
 "use strict";
 
+function debugInit()
+{
+	let obj;
+	
+	obj = document.createElement("canvas");
+	obj.id = "c1";
+	
+	document.body.appendChild(obj);
+}
+
 function debugDraw()
 {
 	let obj, width, height, zoom, x, y, c, ctx;
