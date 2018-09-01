@@ -75,7 +75,11 @@ var BABYLON = {
 	"SpotLight": function () {},
 	"HemisphericLight": function () {},
 	"DirectionalLight": function () {},
-	"ShadowGenerator": function () {},
+	"ShadowGenerator": function () {
+ 		return {
+			"addShadowCaster": function() {}
+		};
+	},
 	"Collider": function () {},
 	"CollisionWorker": {},
 	"WorkerTaskType": {
@@ -148,8 +152,20 @@ var BABYLON = {
 	"RenderingGroup": function () {},
 	"Scene": function () {
 		return {
-			"createDefaultVRExperience": function() {},
-			"render": function() {}
+			"onBeforeAnimationsObservable": {},
+			"createDefaultVRExperience": function() {
+				return {
+					"currentVRCamera": {}
+				};
+			},
+			"render": function() {},
+			"FOGMODE_LINEAR": 0,
+			"activeCamera": function() {
+				return {
+					"clear": function() {},
+					"addMouse": function() {}
+				};
+			}
 		};
 	},
 	"VertexBuffer": function () {},
@@ -329,6 +345,7 @@ var BABYLON = {
 				return {
 					"setEnabled": function() {},
 					"createInstance": function() {},
+					"scaling": { "x": 0, "y": 0, "z": 0 },
 					"position": { "x": 0, "y": 0, "z": 0 },
 					"rotation": { "x": 0, "y": 0, "z": 0 }
 				};
