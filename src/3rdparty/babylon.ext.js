@@ -160,6 +160,9 @@ var BABYLON = {
 			},
 			"render": function() {},
 			"FOGMODE_LINEAR": 0,
+			"fogMode": 0,
+			"fogStart": 0,
+			"fogEnd": 0,
 			"activeCamera": function() {
 				return {
 					"clear": function() {},
