@@ -17,6 +17,8 @@ class Gfx
 		this.engine = new BABYLON.Engine(this.canvas, true, { preserveDrawingBuffer: true, stencil: true });
 		this.scene1 = this.createScene();
 		this.engine.runRenderLoop(this.onRenderLoop.bind(this));
+		this.scene1.activeCamera.inputs.clear();
+		this.scene1.activeCamera.inputs.addMouse();
 		
 		bindEvent(window, "resize", this.onResize.bind(this));
 	}
