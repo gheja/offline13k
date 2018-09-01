@@ -18,19 +18,19 @@ class GameObjectObstacle extends GameObject
 		switch (a)
 		{
 			case OBJ_OBSTACLE:
-				this.gfxObject = _gfx.placeObject("block", { x: x, y: 0, z: y }, {});
+				this.gfxObject = _gfx.placeObject(MODEL_OBSTACLE_FULL, { x: x, y: 0, z: y }, {});
 			break;
 			
 			case OBJ_OBSTACLE_LOW:
-				this.gfxObject = _gfx.placeObject("lower", { x: x, y: 0, z: y }, {});
+				this.gfxObject = _gfx.placeObject(MODEL_OBSTACLE_LOWER, { x: x, y: 0, z: y }, {});
 			break;
 			
 			case OBJ_OBSTACLE_HIGH:
-				this.gfxObject = _gfx.placeObject("upper", { x: x, y: 0, z: y }, {});
+				this.gfxObject = _gfx.placeObject(MODEL_OBSTACLE_UPPER, { x: x, y: 0, z: y }, {});
 			break;
 			
 			case OBJ_EDGE:
-				this.gfxObject = _gfx.placeObject("building", { x: x, y: 0, z: y }, {});
+				this.gfxObject = _gfx.placeObject(MODEL_EDGE, { x: x, y: 0, z: y }, {});
 			break;
 		}
 	}

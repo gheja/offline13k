@@ -108,10 +108,10 @@ class Gfx
 		// Enable VR
 		this.vr = scene.createDefaultVRExperience();
 		
-		this.createObjectPrototype({ height: 1, z: 0 }, "block");
-		this.createObjectPrototype({ height: 0.3, z: 0.7 }, "upper");
-		this.createObjectPrototype({ height: 0.3, z: 0 }, "lower");
-		this.createObjectPrototype({ height: 4, z: 0 }, "building");
+		this.createObjectPrototype({ height: 1, z: 0 }, MODEL_OBSTACLE_FULL);
+		this.createObjectPrototype({ height: 0.3, z: 0.7 }, MODEL_OBSTACLE_UPPER);
+		this.createObjectPrototype({ height: 0.3, z: 0 }, MODEL_OBSTACLE_LOWER);
+		this.createObjectPrototype({ height: 4, z: 0 }, MODEL_EDGE);
 		
 		// player object
 		a = BABYLON.MeshBuilder.CreateBox("", {}, this.scene1);
@@ -120,8 +120,8 @@ class Gfx
 		a.scaling.y = 0.5;
 		a.scaling.z = 0.5;
 		a.setEnabled(false);
-		a.material = this.quickMaterial(0.9, 0.2, 0.1);
-		this.objectPrototypes["player"] = a;
+		a.material = this.quickMaterial(0.9, 0.2, 0.1, 1.0, scene);
+		this.objectPrototypes[MODEL_PLAYER] = a;
 		
 		scene.fogMode = BABYLON.Scene.FOGMODE_LINEAR;
 		scene.fogStart = 20;
