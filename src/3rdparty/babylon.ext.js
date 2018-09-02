@@ -184,7 +184,8 @@ var BABYLON = {
 					"receiveShadows": 0,
 					"blurKernel": 0
 				};
-			}
+			},
+			"convertToFlatShadedMesh": function() {}
 		};
 	},
 	"SubMesh": function () {},
@@ -268,7 +269,12 @@ var BABYLON = {
 	"VirtualJoystick": function () {},
 	"VirtualJoysticksCamera": function () {},
 	"ShaderMaterial": function () {},
-	"VertexData": function () {},
+	"VertexData": function () {
+		return {
+			"ComputeNormals": function() {},
+			"applyToMesh": function() {}
+		};
+	},
 	"AnaglyphPostProcess": function () {},
 	"Tags": function () {},
 	"PostProcessRenderPass": function () {},
