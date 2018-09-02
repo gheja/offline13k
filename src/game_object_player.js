@@ -25,6 +25,8 @@ class GameObjectPlayer extends GameObject
 	init()
 	{
 		this.gfxObject = _gfx.placeObject(OBJ_PLAYER, {}, {});
+		this.bones.push(new Bone(_gfx.placeObject(OBJ_HAND, {}, {}), null, 0.2, 0, 0));
+		this.bones.push(new Bone(_gfx.placeObject(OBJ_HAND, {}, {}), this.bones[0], 0.2, 0, 0));
 	}
 	
 	updateObstacles()
@@ -93,6 +95,27 @@ class GameObjectPlayer extends GameObject
 	tick()
 	{
 		let a, b, mapXFraction;
+		
+		// animation
+		let c, r;
+		
+		r = 30;
+		
+		c = _ticks % (r * 4);
+		
+		if (c == 0)
+		{
+			this.bones[0].setTargetA(0.3);
+			this.bones[1].setTargetA(0.6);
+		}
+		
+		if (c == r * 2)
+		{
+			this.bones[0].setTargetA(0.6);
+			this.bones[1].setTargetA(0.3);
+		}
+		
+		// /animation
 		
 		a = _input.query();
 		
