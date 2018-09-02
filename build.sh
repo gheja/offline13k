@@ -52,6 +52,11 @@ java -jar ../compiler/compiler.jar \
 	--formatting PRETTY_PRINT \
 	--summary_detail_level 3
 
+if [ $? != 0 ]; then
+	echo "Error, exiting."
+	exit 1
+fi
+
 java -jar ../compiler/compiler.jar \
 	--compilation_level WHITESPACE_ONLY \
 	--js c.js \
