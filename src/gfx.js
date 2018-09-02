@@ -81,10 +81,10 @@ class Gfx
 		scene.ambientColor = new BABYLON.Color3(0.38, 0.75, 0.9);
 		scene.fogColor = new BABYLON.Color3(0.38, 0.75, 0.9);
 		
-		light1 = new BABYLON.PointLight("", new BABYLON.Vector3(0, 10, 60), scene);
+		light1 = new BABYLON.PointLight("", new BABYLON.Vector3(-50, 100, 300), scene);
 		light1.intensity = 0.8;
 		
-		light2 = new BABYLON.PointLight("", new BABYLON.Vector3(0, 100, -100), scene);
+		light2 = new BABYLON.PointLight("", new BABYLON.Vector3(0, 150, -300), scene);
 		light2.intensity = 0.6;
 		
 		camera = new BABYLON.FreeCamera("", new BABYLON.Vector3(0, 1.7, -20), scene);
