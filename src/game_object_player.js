@@ -86,6 +86,8 @@ class GameObjectPlayer extends GameObject
 		
 		this.gfxObject.position.x = this.mapX;
 		this.gfxObject.position.z = this.mapY;
+		
+		this.updateBones();
 	}
 	
 	tick()
