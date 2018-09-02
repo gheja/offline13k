@@ -3,11 +3,15 @@
 now=`date +%Y%m%d_%H%M%S`
 zip1="../../build_${now}.zip"
 zip1b="../../build_${now}_advzip.zip"
+zip2="../../build_${now}_full.zip"
 shave="no"
 
 mkdir -p ./build/stage1
 
 cd ./build/stage1
+
+git log | head -n 100 > git_log.txt
+git diff > git_diff.txt
 
 {
 	echo "\"use strict\";"
@@ -64,6 +68,8 @@ cat ../../src/index.min.html | sed \
 	-e 'd}' \
 	> index.html
 
+zip -9 $zip2 *
+
 cp index.html index.html.1
 cat index.html.1 | tr -d '\r' | tr '\n' ' ' > index.html
 
@@ -76,7 +82,7 @@ else
 	../advancecomp/advancecomp-1.20/advzip -z -4 -i 500 $zip1b
 fi
 
-ls -albtr * $zip1 $zip1b
+ls -albtr * $zip1 $zip1b $zip2
 
 bytes=`stat --format '%s' $zip1b`
 bytes_limit=13312
