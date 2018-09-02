@@ -9,6 +9,7 @@ class Gfx
 		this.canvas = document.getElementById("c");
 		this.vr = null;
 		this.mat2 = null;
+		// this.shadowGenerator = null;
 		
 		this.objectPrototypes = {};
 	}
@@ -66,7 +67,7 @@ class Gfx
 		_merge(a.position, position);
 		_merge(a.rotation, rotation);
 		a.position.y += this.objectPrototypes[key].game.z + this.objectPrototypes[key].game.height / 2;
-		// _shadowGenerator.addShadowCaster(a, true);
+		// this.shadowGenerator.addShadowCaster(a, true);
 		
 		return a;
 	}
@@ -92,9 +93,9 @@ class Gfx
 		
 		this.mat2 = this.quickMaterial(0.2, 0.8, 1.0, 1.0, scene);
 		
-		// _shadowGenerator = new BABYLON.ShadowGenerator(1024, _light);
-		// _shadowGenerator.useBlurExponentialShadowMap = true;
-		// _shadowGenerator.blurKernel = 32;
+		// this.shadowGenerator = new BABYLON.ShadowGenerator(1024, light1);
+		// this.shadowGenerator.useBlurExponentialShadowMap = true;
+		// this.shadowGenerator.blurKernel = 32;
 		
 		plane = BABYLON.Mesh.CreatePlane("", 100, scene);
 		plane.position.y = 0;
@@ -121,6 +122,7 @@ class Gfx
 		a.scaling.z = 0.5;
 		a.setEnabled(false);
 		a.material = this.quickMaterial(0.9, 0.2, 0.1, 1.0, scene);
+		// this.shadowGenerator.addShadowCaster(a, true);
 		this.objectPrototypes[OBJ_PLAYER] = a;
 		
 		scene.fogMode = BABYLON.Scene.FOGMODE_LINEAR;
