@@ -30,6 +30,18 @@ function _merge(obj, settings)
 	}
 }
 
+function lerp(a, b, x)
+{
+	return a + (b - a) * x;
+}
+
+function smoothstep(a, b, x)
+{
+	x = x * x * (3 - 2 * x);
+	
+	return a + (b - a) * x;
+}
+
 function clamp(min, max, x)
 {
 	return Math.min(Math.max(x, min), max);
