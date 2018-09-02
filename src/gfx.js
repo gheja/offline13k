@@ -37,18 +37,67 @@ class Gfx
 		return material;
 	}
 	
-	createObjectPrototype(definition, key)
+	loadModelFromString(key, s, scene)
 	{
-		let a;
+		let mesh, positions, indices, normals, vertexData, i, model, a;
 		
-		a = BABYLON.MeshBuilder.CreateBox("", {}, this.scene1);
-		a.game = _copy(definition);
-		a.scaling.x = 1;
-		a.scaling.y = a.game.height;
-		a.setEnabled(false);
-		a.material = this.mat2;
+		// initialize mesh
+		mesh = new BABYLON.Mesh("", scene);
 		
-		this.objectPrototypes[key] = a;
+		// process the string (values should be integers but they are strings this way)
+		a = s.split("  ");
+		
+		model = {
+			flatShaded: a[0],
+			scale: a[1],
+			points: a[2].split(" "),
+			faces: a[3].split(" ")
+		};
+		
+		positions = [];
+		indices = [];
+		normals = [];
+		
+		// "* 1" is the cheap way to convert a string to integer
+		
+		for (i=0; i<model.points.length; i++)
+		{
+			positions.push(model.points[i] * 1); // pad all positions except Y
+		}
+		
+		for (i=0; i<model.faces.length; i += 4)
+		{
+			indices.push(model.faces[i] * 1);
+			indices.push(model.faces[i + 1] * 1);
+			indices.push(model.faces[i + 2] * 1);
+			
+			indices.push(model.faces[i + 2] * 1);
+			indices.push(model.faces[i + 3] * 1);
+			indices.push(model.faces[i] * 1);
+		}
+		
+		BABYLON.VertexData.ComputeNormals(positions, indices, normals);
+		
+		vertexData = new BABYLON.VertexData();
+		vertexData.positions = positions;
+		vertexData.indices = indices;
+		vertexData.normals = normals;
+		
+		vertexData.applyToMesh(mesh);
+		
+		mesh.material = this.quickMaterial(0.5, 0.5, 0.5, 1, scene);
+		mesh.isPickable = false;
+		mesh.setEnabled(false);
+		mesh.scaling.x = 0.001 * model.scale;
+		mesh.scaling.y = 0.001 * model.scale;
+		mesh.scaling.z = 0.001 * model.scale;
+		
+		if (model.flatShaded * 1)
+		{
+			mesh.convertToFlatShadedMesh();
+		}
+		
+		this.objectPrototypes[key] = mesh;
 	}
 	
 	placeObject(key, position, rotation)
@@ -66,7 +115,7 @@ class Gfx
 		a = this.objectPrototypes[key].createInstance();
 		_merge(a.position, position);
 		_merge(a.rotation, rotation);
-		a.position.y += this.objectPrototypes[key].game.z + this.objectPrototypes[key].game.height / 2;
+		a.setEnabled(true);
 		// this.shadowGenerator.addShadowCaster(a, true);
 		
 		return a;
@@ -109,21 +158,13 @@ class Gfx
 		// Enable VR
 		this.vr = scene.createDefaultVRExperience();
 		
-		this.createObjectPrototype({ height: 1, z: 0 }, OBJ_OBSTACLE_FULL);
-		this.createObjectPrototype({ height: 0.3, z: 0.7 }, OBJ_OBSTACLE_UPPER);
-		this.createObjectPrototype({ height: 0.3, z: 0 }, OBJ_OBSTACLE_LOWER);
-		this.createObjectPrototype({ height: 4, z: 0 }, OBJ_EDGE);
+		a = "1  10  0 0 0 100 0 0 100 100 0 0 100 0 100 100 100 100 0 100 0 0 100 0 100 100  0 1 2 3 1 5 4 2 5 6 7 4 6 0 3 7 3 2 4 7";
 		
-		// player object
-		a = BABYLON.MeshBuilder.CreateBox("", {}, this.scene1);
-		a.game = { height: 0.2, z: 0.2 };
-		a.scaling.x = 0.5;
-		a.scaling.y = 0.5;
-		a.scaling.z = 0.5;
-		a.setEnabled(false);
-		a.material = this.quickMaterial(0.9, 0.2, 0.1, 1.0, scene);
-		// this.shadowGenerator.addShadowCaster(a, true);
-		this.objectPrototypes[OBJ_PLAYER] = a;
+		this.loadModelFromString(OBJ_OBSTACLE_FULL, a, scene);
+		this.loadModelFromString(OBJ_OBSTACLE_UPPER, a, scene);
+		this.loadModelFromString(OBJ_OBSTACLE_LOWER, a, scene);
+		this.loadModelFromString(OBJ_EDGE, a, scene);
+		this.loadModelFromString(OBJ_PLAYER, "1  10  20 20 0 80 20 0 50 50 20 20 50 50 80 50 50 80 20 100 20 20 100 50 50 80  0 1 2 3 1 5 4 2 5 6 7 4 6 0 3 7 3 2 4 7", scene);
 		
 		scene.fogMode = BABYLON.Scene.FOGMODE_LINEAR;
 		scene.fogStart = 20;
