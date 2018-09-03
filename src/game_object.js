@@ -39,8 +39,9 @@ class GameObject
 			
 			p.a += bone.a;
 			p.b += bone.b;
-			p.y += Math.cos(_rotation(p.a)) * bone.length;
-			p.z += Math.sin(_rotation(p.a)) * bone.length;
+			p.x += Math.sin(_rotation(p.a)) * Math.cos(_rotation(p.b)) * bone.length;
+			p.y += Math.sin(_rotation(p.a)) * Math.sin(_rotation(p.b)) * bone.length;
+			p.z += Math.cos(_rotation(p.a)) * bone.length;
 			
 			bone.gfxObject.position.x = p.x;
 			bone.gfxObject.position.y = p.y;
