@@ -6,7 +6,6 @@ class Gfx
 	{
 		this.engine = null;
 		this.scene1 = null;
-		this.canvas = document.getElementById("c");
 		this.vr = null;
 		this.mat2 = null;
 		// this.shadowGenerator = null;
@@ -16,7 +15,7 @@ class Gfx
 	
 	init()
 	{
-		this.engine = new BABYLON.Engine(this.canvas, true, { preserveDrawingBuffer: true, stencil: true });
+		this.engine = new BABYLON.Engine(_canvas, true, { preserveDrawingBuffer: true, stencil: true });
 		this.scene1 = this.createScene();
 		this.engine.runRenderLoop(this.onRenderLoop.bind(this));
 		this.scene1.activeCamera.inputs.clear();

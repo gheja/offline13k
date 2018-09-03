@@ -1,5 +1,6 @@
 "use strict";
 
+let _canvas;
 let _level;
 let _player;
 let _input;
@@ -51,6 +52,7 @@ function frame()
 
 function init()
 {
+	_canvas = document.getElementById("c");
 	_level = new Level();
 	_player = new GameObjectPlayer();
 	_input = new InputKeyboard();
