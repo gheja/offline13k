@@ -23,8 +23,9 @@ class GameObjectPlayer extends GameObject
 	init()
 	{
 		this.gfxObject = _gfx.placeObject(OBJ_PLAYER, {}, {});
-		this.bones.push(new Bone(_gfx.placeObject(OBJ_HAND, {}, {}), null, 0.2, 0, 0));
-		this.bones.push(new Bone(_gfx.placeObject(OBJ_HAND, {}, {}), this.bones[0], 0.2, 0, 0));
+		this.skeleton = new Skeleton();
+		this.skeleton.addBone(new Bone(_gfx.placeObject(OBJ_HAND, {}, {}), 0.2), null);
+		this.skeleton.addBone(new Bone(_gfx.placeObject(OBJ_HAND, {}, {}), 0.2), 0);
 	}
 	
 	updateObstacles()
@@ -88,7 +89,7 @@ class GameObjectPlayer extends GameObject
 			_gfx.scene1.activeCamera.position.z = this.gfxObject.position.z - 3;
 		}
 		
-		this.updateBones();
+		this.skeleton.update(this.gfxObject.position);
 	}
 	
 	tick()
@@ -104,14 +105,12 @@ class GameObjectPlayer extends GameObject
 		
 		if (c == 0)
 		{
-			this.bones[0].setTargetA(0.3);
-			this.bones[1].setTargetA(0.6);
+			this.skeleton.setPose(0);
 		}
 		
 		if (c == r * 2)
 		{
-			this.bones[0].setTargetA(0.6);
-			this.bones[1].setTargetA(0.3);
+			this.skeleton.setPose(1);
 		}
 		
 		// /animation

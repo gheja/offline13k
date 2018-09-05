@@ -2,13 +2,13 @@
 
 class Bone
 {
-	constructor(gfxObject, parent, length, a, b)
+	constructor(gfxObject, length)
 	{
 		this.gfxObject = gfxObject;
-		this.parent = parent;
+		this.parent = null;
 		this.length = length;
-		this.a = a;
-		this.b = b;
+		this.a = 0;
+		this.b = 0;
 		this.startA = 0;
 		this.targetA = 0;
 		this.posA = 0;
