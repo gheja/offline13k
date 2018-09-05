@@ -25,19 +25,15 @@ git diff > git_diff.txt
 
 cp a.js b.js
 
-if [ "$shave" == "yes" ]; then
-	vars="endPattern env_attack env_master env_release env_sustain fx_delay_amt fx_delay_time fx_filter fx_freq fx_pan_amt fx_pan_freq fx_resonance lfo_amt lfo_freq lfo_fx_freq lfo_osc1_freq lfo_waveform noise_fader osc1_det osc1_detune osc1_oct osc1_vol osc1_waveform osc1_xenv osc2_det osc2_detune osc2_oct osc2_vol osc2_waveform osc2_xenv rowLen songData songLen"
-	i=0
-	for a in $vars; do
-		b="b${i}"
-		
-		mv b.js b.js.tmp
-		
-		cat b.js.tmp | sed -r "s/\"$a\"/\"$b\"/g" > b.js
-		
-		i=$((i + 1))
-	done
-fi
+vars="endPattern env_attack env_master env_release env_sustain fx_delay_amt fx_delay_time fx_filter fx_freq fx_pan_amt fx_pan_freq fx_resonance lfo_amt lfo_freq lfo_fx_freq lfo_osc1_freq lfo_waveform noise_fader osc1_det osc1_detune osc1_oct osc1_vol osc1_waveform osc1_xenv osc2_det osc2_detune osc2_oct osc2_vol osc2_waveform osc2_xenv rowLen songData songLen"
+i=0
+for a in $vars; do
+	b="b${i}"
+	
+	sed -r -i "s/\"$a\"/\"$b\"/g" b.js
+	
+	i=$((i + 1))
+done
 
 java -jar ../compiler/compiler.jar \
 	--compilation_level ADVANCED_OPTIMIZATIONS \
