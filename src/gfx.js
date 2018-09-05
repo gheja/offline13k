@@ -8,6 +8,7 @@ class Gfx
 		this.scene1 = null;
 		this.vr = null;
 		this.mat2 = null;
+		this.multiMaterial = null;
 		// this.shadowGenerator = null;
 		
 		this.objectPrototypes = {};
@@ -50,7 +51,8 @@ class Gfx
 			flatShaded: a[0],
 			scale: a[1],
 			points: a[2].split(" "),
-			faces: a[3].split(" ")
+			faces: a[3].split(" "),
+			groups: a[4].split(" ")
 		};
 		
 		positions = [];
@@ -84,7 +86,8 @@ class Gfx
 		
 		vertexData.applyToMesh(mesh);
 		
-		mesh.material = this.quickMaterial(0.5, 0.5, 0.5, 1, scene);
+		// mesh.material = this.quickMaterial(0.5, 0.5, 0.5, 1, scene);
+		mesh.material = this.multiMaterial;
 		mesh.isPickable = false;
 		mesh.setEnabled(false);
 		mesh.scaling.x = 0.001 * model.scale;
@@ -94,6 +97,13 @@ class Gfx
 		if (model.flatShaded * 1)
 		{
 			mesh.convertToFlatShadedMesh();
+		}
+		
+		mesh.subMeshes = [];
+		
+		for (i=0; i<model.groups.length; i += 10)
+		{
+			 mesh.subMeshes.push(new BABYLON.SubMesh(model.groups[i] * 1, 0, model.points.length, model.groups[i + 1] * 1 * 6, (model.groups[i + 2] * 1 - model.groups[i + 1] * 1 + 1) * 6, mesh));
 		}
 		
 		this.objectPrototypes[key] = mesh;
@@ -139,6 +149,12 @@ class Gfx
 		camera.rotation.x = _rotation(0.03);
 		camera.minZ = 0.2;
 		
+		this.multiMaterial = new BABYLON.MultiMaterial("", scene);
+		this.multiMaterial.subMaterials.push(this.quickMaterial(0.5, 0.5, 0.5, 1.0, scene));
+		this.multiMaterial.subMaterials.push(this.quickMaterial(1.0, 0, 0, 1.0, scene));
+		this.multiMaterial.subMaterials.push(this.quickMaterial(0, 1.0, 0, 1.0, scene));
+		this.multiMaterial.subMaterials.push(this.quickMaterial(0, 0, 1.0, 1.0, scene));
+		
 		this.mat2 = this.quickMaterial(0.2, 0.8, 1.0, 1.0, scene);
 		
 		// this.shadowGenerator = new BABYLON.ShadowGenerator(1024, light1);
@@ -157,15 +173,17 @@ class Gfx
 		// Enable VR
 		this.vr = scene.createDefaultVRExperience();
 		
-		a = "1  10  0 0 0 100 0 0 100 100 0 0 100 0 100 100 100 100 0 100 0 0 100 0 100 100  0 1 2 3 1 5 4 2 5 6 7 4 6 0 3 7 3 2 4 7";
+		a = "1  10  0 0 0 100 0 0 100 100 0 0 100 0 100 100 100 100 0 100 0 0 100 0 100 100  0 1 2 3 1 5 4 2 5 6 7 4 6 0 3 7 3 2 4 7  0 0 4 0 0 0 0 0 0 0";
 		
 		this.loadModelFromString(OBJ_OBSTACLE_FULL, a, scene);
 		this.loadModelFromString(OBJ_OBSTACLE_UPPER, a, scene);
 		this.loadModelFromString(OBJ_OBSTACLE_LOWER, a, scene);
 		this.loadModelFromString(OBJ_EDGE, a, scene);
-		this.loadModelFromString(OBJ_PLAYER, "1  10  20 20 0 80 20 0 50 50 20 20 50 50 80 50 50 80 20 100 20 20 100 50 50 80  0 1 2 3 1 5 4 2 5 6 7 4 6 0 3 7 3 2 4 7", scene);
+//		this.loadModelFromString(OBJ_PLAYER, "1  10  20 20 0 80 20 0 50 50 20 20 50 50 80 50 50 80 20 100 20 20 100 50 50 80  0 1 2 3 1 5 4 2 5 6 7 4 6 0 3 7 3 2 4 7", scene);
+		this.loadModelFromString(OBJ_PLAYER, "1  10  12 5 0 79 20 0 50 50 20 7 50 50 80 50 50 80 20 100 20 20 100 50 50 80  1 5 4 2 5 6 7 4 6 0 3 7 3 2 4 7 0 1 2 3  5 4 4 0 0 0 0 0 0 0 0 1 3 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0", scene);
+		this.loadModelFromString(OBJ_HAND, "0  10  12 5 0 79 20 0 50 50 20 7 50 50 80 50 50 80 20 100 20 20 100 50 50 80  6 0 3 7 3 2 4 7 1 5 4 2 5 6 7 4 0 1 2 3  5 4 4 0 0 0 0 0 0 0 0 3 3 0 0 0 0 0 0 0 2 0 2 0 0 0 0 0 0 0", scene);
 		
-		this.loadModelFromString(OBJ_HAND, "1  1  0 0 0 100 0 0 100 100 0 0 100 0 100 100 100 100 0 100 0 0 100 0 100 100  0 1 2 3 1 5 4 2 5 6 7 4 6 0 3 7 3 2 4 7", scene);
+//		this.loadModelFromString(OBJ_HAND, "1  1  0 0 0 100 0 0 100 100 0 0 100 0 100 100 100 100 0 100 0 0 100 0 100 100  0 1 2 3 1 5 4 2 5 6 7 4 6 0 3 7 3 2 4 7  0 0 4 0 0 0 0 0 0 0", scene);
 		
 		scene.fogMode = BABYLON.Scene.FOGMODE_LINEAR;
 		scene.fogStart = 20;
