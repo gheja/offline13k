@@ -332,7 +332,11 @@ var BABYLON = {
 	"DebugLayer": function () {},
 	"RawTexture": function () {},
 	"Polygon": function () {},
-	"PolygonMeshBuilder": function () {},
+	"PolygonMeshBuilder": function () {
+		return {
+			"CreateLines": function() {}
+		};
+	},
 	"SimplificationSettings": function () {},
 	"SimplificationQueue": function () {},
 	"SimplificationType": {
