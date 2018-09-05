@@ -9,11 +9,8 @@ class Bone
 		this.length = length;
 		this.a = 0;
 		this.b = 0;
-		this.startA = 0;
 		this.targetA = 0;
-		this.posA = 0;
-		this.maxA = 1;
-		this.speedA = 1 / TPS;
+		this.targetB = 0;
 	}
 	
 	setTargetA(x)

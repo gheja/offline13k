@@ -35,9 +35,8 @@ class Skeleton
 			}
 			
 			bone = this.bones[i];
-			bone.posA = Math.min(bone.posA + bone.speedA, bone.maxA);
-			
-			bone.a = smoothstep(bone.startA, bone.targetA, bone.posA / bone.maxA);
+			bone.a = bone.a + (bone.targetA - bone.a) * 0.03;
+			bone.b = bone.b + (bone.targetB - bone.b) * 0.03;
 			
 			p = _copy(position);
 			
