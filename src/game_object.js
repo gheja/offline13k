@@ -11,6 +11,7 @@ class GameObject
 		this.speedY = 0;
 		this.rotation = 0;
 		
+		this.gfxObject = null;
 		this.bones = [];
 		
 		if (DEV_BUILD)

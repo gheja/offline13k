@@ -18,8 +18,6 @@ class GameObjectPlayer extends GameObject
 		this.timeJump = 0;
 		this.timeDuck = 0;
 		this.targetMapX = 7;
-		
-		this.gfxObject = null;
 	}
 	
 	init()
