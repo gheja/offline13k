@@ -214,7 +214,11 @@ var BABYLON = {
 			"diffuseColor": 0
 		};
 	},
-	"MultiMaterial": function () {},
+	"MultiMaterial": function () {
+		return {
+			"subMaterials": []
+		};
+	},
 	"SceneLoader": function () {},
 	"SpriteManager": function () {},
 	"Sprite": function () {},
@@ -271,6 +275,9 @@ var BABYLON = {
 	"ShaderMaterial": function () {},
 	"VertexData": function () {
 		return {
+			"positions": [],
+			"indices": [],
+			"normals": [],
 			"ComputeNormals": function() {},
 			"applyToMesh": function() {}
 		};
