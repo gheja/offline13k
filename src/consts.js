@@ -29,3 +29,6 @@ const TILE_WALK = 4;
 const TILE_COLORS = [ "#222", "#d0d", "#eb2", "#888", "#ccc" ];
 const OBJ_COLORS = [ "rgba(0,0,0,0)", "#f0f", "rgba(0,0,0,0)", "#e00", "#0ae", "#ea0" ];
 
+const TIME_JUMP = TPS / 2;
+const TIME_DUCK = TPS / 2;
+const MOVE_SPEED_X = 3 / TPS;

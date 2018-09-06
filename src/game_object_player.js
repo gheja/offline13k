@@ -1,9 +1,5 @@
 "use strict";
 
-const TIME_JUMP = TPS / 2;
-const TIME_DUCK = TPS / 2;
-const MOVE_SPEED_X = 3 / TPS;
-
 class GameObjectPlayer extends GameObject
 {
 	constructor()
