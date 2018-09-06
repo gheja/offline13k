@@ -180,8 +180,12 @@ class Gfx
 		this.loadModelFromString(OBJ_OBSTACLE_LOWER, a, scene);
 		this.loadModelFromString(OBJ_EDGE, a, scene);
 //		this.loadModelFromString(OBJ_PLAYER, "1  10  20 20 0 80 20 0 50 50 20 20 50 50 80 50 50 80 20 100 20 20 100 50 50 80  0 1 2 3 1 5 4 2 5 6 7 4 6 0 3 7 3 2 4 7", scene);
-		this.loadModelFromString(OBJ_PLAYER, "1  10  12 5 0 79 20 0 50 50 20 7 50 50 80 50 50 80 20 100 20 20 100 50 50 80  1 5 4 2 5 6 7 4 6 0 3 7 3 2 4 7 0 1 2 3  5 4 4 0 0 0 0 0 0 0 0 1 3 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0", scene);
-		this.loadModelFromString(OBJ_HAND, "0  10  12 5 0 79 20 0 50 50 20 7 50 50 80 50 50 80 20 100 20 20 100 50 50 80  6 0 3 7 3 2 4 7 1 5 4 2 5 6 7 4 0 1 2 3  5 4 4 0 0 0 0 0 0 0 0 3 3 0 0 0 0 0 0 0 2 0 2 0 0 0 0 0 0 0", scene);
+// 		this.loadModelFromString(OBJ_PLAYER, "1  10  12 5 0 79 20 0 50 50 20 7 50 50 80 50 50 80 20 100 20 20 100 50 50 80  1 5 4 2 5 6 7 4 6 0 3 7 3 2 4 7 0 1 2 3  5 4 4 0 0 0 0 0 0 0 0 1 3 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0", scene);
+//		this.loadModelFromString(OBJ_HAND, "0  10  12 5 0 79 20 0 50 50 20 7 50 50 80 50 50 80 20 100 20 20 100 50 50 80  6 0 3 7 3 2 4 7 1 5 4 2 5 6 7 4 0 1 2 3  5 4 4 0 0 0 0 0 0 0 0 3 3 0 0 0 0 0 0 0 2 0 2 0 0 0 0 0 0 0", scene);
+		
+		a = "1  1  0 0 0 100 0 0 100 100 0 0 100 0 100 100 100 100 0 100 0 0 100 0 100 100  0 1 2 3 1 5 4 2 5 6 7 4 6 0 3 7 3 2 4 7  0 0 4 0 0 0 0 0 0 0";
+ 		this.loadModelFromString(OBJ_PLAYER, a, scene);
+		this.loadModelFromString(OBJ_HAND, a, scene);
 		
 //		this.loadModelFromString(OBJ_HAND, "1  1  0 0 0 100 0 0 100 100 0 0 100 0 100 100 100 100 0 100 0 0 100 0 100 100  0 1 2 3 1 5 4 2 5 6 7 4 6 0 3 7 3 2 4 7  0 0 4 0 0 0 0 0 0 0", scene);
 		
