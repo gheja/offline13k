@@ -8,7 +8,7 @@ class Gfx
 		this.scene1 = null;
 		this.vr = null;
 		this.mat2 = null;
-		this.multiMaterial = null;
+		this.materials = [];
 		// this.shadowGenerator = null;
 		
 		this.objectPrototypes = {};
@@ -39,12 +39,8 @@ class Gfx
 	
 	loadModelFromString(key, s, scene)
 	{
-		let mesh, positions, indices, normals, vertexData, i, model, a;
+		let mesh, positions, indices, normals, vertexData, i, j, k, model, a, b;
 		
-		// initialize mesh
-		mesh = new BABYLON.Mesh("", scene);
-		
-		// process the string (values should be integers but they are strings this way)
 		a = s.split("  ");
 		
 		model = {
@@ -55,6 +51,9 @@ class Gfx
 			groups: a[4].split(" ")
 		};
 		
+		mesh = new BABYLON.Mesh("custom", scene);
+		mesh.isPickable = false;
+		
 		positions = [];
 		indices = [];
 		normals = [];
@@ -63,7 +62,7 @@ class Gfx
 		
 		for (i=0; i<model.points.length; i++)
 		{
-			positions.push(model.points[i] * 1); // pad all positions except Y
+			positions.push(model.points[i] * 1 - (i % 3 != 1 ? 50 : 0)); // pad all positions except Y
 		}
 		
 		for (i=0; i<model.faces.length; i += 4)
@@ -79,39 +78,46 @@ class Gfx
 		
 		BABYLON.VertexData.ComputeNormals(positions, indices, normals);
 		
-		vertexData = new BABYLON.VertexData();
-		vertexData.positions = positions;
-		vertexData.indices = indices;
-		vertexData.normals = normals;
+		for (i=0; i<model.groups.length; i += 10)
+		{
+			for (j=0; j<model.groups[i + 3] * 1 + 1; j++)
+			{
+				a = new BABYLON.Mesh("custom", scene);
+				a.material = this.materials[model.groups[i]];
+				a.parent = mesh;
+				
+				b = new BABYLON.VertexData();
+				b.positions = _copy(positions);
+				b.indices = indices.slice(model.groups[i + 1] * 1 * 6, (model.groups[i + 1] * 1 + model.groups[i + 2] * 1) * 6);
+				b.normals = _copy(normals);
+				
+				for (k=0; k<b.positions.length; k+=3)
+				{
+					b.positions[k] += model.groups[i + 4] * 1 * j;
+					b.positions[k] += model.groups[i + 5] * 1 * j;
+					b.positions[k] += model.groups[i + 6] * 1 * j;
+				}
+				
+				b.applyToMesh(a);
+				
+				if (model.flatShaded)
+				{
+					a.convertToFlatShadedMesh();
+				}
+				
+			}
+		}
 		
-		vertexData.applyToMesh(mesh);
-		
-		// mesh.material = this.quickMaterial(0.5, 0.5, 0.5, 1, scene);
-		mesh.material = this.multiMaterial;
-		mesh.isPickable = false;
-		mesh.setEnabled(false);
 		mesh.scaling.x = 0.001 * model.scale;
 		mesh.scaling.y = 0.001 * model.scale;
 		mesh.scaling.z = 0.001 * model.scale;
-		
-		if (model.flatShaded * 1)
-		{
-			mesh.convertToFlatShadedMesh();
-		}
-		
-		mesh.subMeshes = [];
-		
-		for (i=0; i<model.groups.length; i += 10)
-		{
-			 mesh.subMeshes.push(new BABYLON.SubMesh(model.groups[i] * 1, 0, model.points.length, model.groups[i + 1] * 1 * 6, (model.groups[i + 2] * 1 - model.groups[i + 1] * 1 + 1) * 6, mesh));
-		}
 		
 		this.objectPrototypes[key] = mesh;
 	}
 	
 	placeObject(key, position, rotation)
 	{
-		let a;
+		let a, b, c, i;
 		
 		if (DEV_BUILD)
 		{
@@ -121,7 +127,7 @@ class Gfx
 			}
 		}
 		
-		a = this.objectPrototypes[key].createInstance();
+		a = this.objectPrototypes[key].clone();
 		_merge(a.position, position);
 		_merge(a.rotation, rotation);
 		a.setEnabled(true);
@@ -149,11 +155,10 @@ class Gfx
 		camera.rotation.x = _rotation(0.03);
 		camera.minZ = 0.2;
 		
-		this.multiMaterial = new BABYLON.MultiMaterial("", scene);
-		this.multiMaterial.subMaterials.push(this.quickMaterial(0.5, 0.5, 0.5, 1.0, scene));
-		this.multiMaterial.subMaterials.push(this.quickMaterial(1.0, 0, 0, 1.0, scene));
-		this.multiMaterial.subMaterials.push(this.quickMaterial(0, 1.0, 0, 1.0, scene));
-		this.multiMaterial.subMaterials.push(this.quickMaterial(0, 0, 1.0, 1.0, scene));
+		this.materials.push(this.quickMaterial(0.5, 0.5, 0.5, 1.0, scene));
+		this.materials.push(this.quickMaterial(1.0, 0, 0, 1.0, scene));
+		this.materials.push(this.quickMaterial(0, 1.0, 0, 1.0, scene));
+		this.materials.push(this.quickMaterial(0, 0, 1.0, 1.0, scene));
 		
 		this.mat2 = this.quickMaterial(0.2, 0.8, 1.0, 1.0, scene);
 		
@@ -173,21 +178,16 @@ class Gfx
 		// Enable VR
 		this.vr = scene.createDefaultVRExperience();
 		
-		a = "1  10  0 0 0 100 0 0 100 100 0 0 100 0 100 100 100 100 0 100 0 0 100 0 100 100  0 1 2 3 1 5 4 2 5 6 7 4 6 0 3 7 3 2 4 7  0 0 4 0 0 0 0 0 0 0";
+		a = "1  10  0 0 0 100 0 0 100 100 0 0 100 0 0 100 100 100 100 100 100 0 100 0 0 100  0 1 2 3 3 2 5 4 7 0 3 4 1 6 5 2  0 0 4 0 0 0 0 0 0 0";
 		
 		this.loadModelFromString(OBJ_OBSTACLE_FULL, a, scene);
-		this.loadModelFromString(OBJ_OBSTACLE_UPPER, a, scene);
+		this.loadModelFromString(OBJ_OBSTACLE_UPPER, "1  10  0 0 0 5 0 0 5 40 30 0 40 30 0 0 4 0 40 35 0 0 65 0 0 70 0 47 35 5 0 70 5 0 65 4 47 35 5 40 35 5 0 5 0 50 30 0 50 35 10 50 35 10 50 30 17 50 35 17 50 30 9 40 30 11 40 35 24 50 35 24 50 30 16 40 30 79 40 30 90 40 30 89 50 30 89 50 35 87 50 35 87 50 30 90 40 35 2 40 30  1 13 12 2 3 2 11 8 10 9 11 12 6 10 12 5 7 8 11 9 7 6 5 8 4 0 3 5 0 1 2 3 20 24 23 19 19 23 22 18 32 20 19 17 17 19 18 16 26 31 28 27 14 17 16 15 3 32 17 14 26 27 30 25 27 28 29 30 5 3 14 15  0 12 6 0 0 0 0 0 0 0 1 10 2 5 14 0 0 0 0 0 0 8 2 4 14 0 0 0 0 0 0 0 8 1 85 0 0 0 0 0", scene);
 		this.loadModelFromString(OBJ_OBSTACLE_LOWER, a, scene);
 		this.loadModelFromString(OBJ_EDGE, a, scene);
-//		this.loadModelFromString(OBJ_PLAYER, "1  10  20 20 0 80 20 0 50 50 20 20 50 50 80 50 50 80 20 100 20 20 100 50 50 80  0 1 2 3 1 5 4 2 5 6 7 4 6 0 3 7 3 2 4 7", scene);
-// 		this.loadModelFromString(OBJ_PLAYER, "1  10  12 5 0 79 20 0 50 50 20 7 50 50 80 50 50 80 20 100 20 20 100 50 50 80  1 5 4 2 5 6 7 4 6 0 3 7 3 2 4 7 0 1 2 3  5 4 4 0 0 0 0 0 0 0 0 1 3 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0", scene);
-//		this.loadModelFromString(OBJ_HAND, "0  10  12 5 0 79 20 0 50 50 20 7 50 50 80 50 50 80 20 100 20 20 100 50 50 80  6 0 3 7 3 2 4 7 1 5 4 2 5 6 7 4 0 1 2 3  5 4 4 0 0 0 0 0 0 0 0 3 3 0 0 0 0 0 0 0 2 0 2 0 0 0 0 0 0 0", scene);
 		
-		a = "1  1  0 0 0 100 0 0 100 100 0 0 100 0 100 100 100 100 0 100 0 0 100 0 100 100  0 1 2 3 1 5 4 2 5 6 7 4 6 0 3 7 3 2 4 7  0 0 4 0 0 0 0 0 0 0";
+		a = "1  1  0 0 0 100 0 0 100 100 0 0 100 0 0 100 100 100 100 100 100 0 100 0 0 100  0 1 2 3 3 2 5 4 7 0 3 4 1 6 5 2  0 0 4 0 0 0 0 0 0 0";
  		this.loadModelFromString(OBJ_PLAYER, a, scene);
 		this.loadModelFromString(OBJ_HAND, a, scene);
-		
-//		this.loadModelFromString(OBJ_HAND, "1  1  0 0 0 100 0 0 100 100 0 0 100 0 100 100 100 100 0 100 0 0 100 0 100 100  0 1 2 3 1 5 4 2 5 6 7 4 6 0 3 7 3 2 4 7  0 0 4 0 0 0 0 0 0 0", scene);
 		
 		scene.fogMode = BABYLON.Scene.FOGMODE_LINEAR;
 		scene.fogStart = 20;
