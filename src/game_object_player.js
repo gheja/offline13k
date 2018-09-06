@@ -18,10 +18,6 @@ class GameObjectPlayer extends GameObjectHuman
 	
 	init()
 	{
-		this.gfxObject = _gfx.placeObject(OBJ_PLAYER, {}, {});
-		this.skeleton = new Skeleton();
-		this.skeleton.addBone(new Bone(_gfx.placeObject(OBJ_HAND, {}, {}), 0.2), null);
-		this.skeleton.addBone(new Bone(_gfx.placeObject(OBJ_HAND, {}, {}), 0.2), 0);
 	}
 	
 	updateObstacles()
@@ -85,31 +81,14 @@ class GameObjectPlayer extends GameObjectHuman
 			_gfx.scene1.activeCamera.position.z = this.gfxObject.position.z - 3;
 		}
 		
-		this.skeleton.update(this.gfxObject.position);
+		this.updateAnimation();
+		this.updateLimbs();
 	}
 	
 	tick()
 	{
 		let a, b, mapXFraction;
 		
-		// animation
-		let c, r;
-		
-		r = 30;
-		
-		c = _ticks % (r * 4);
-		
-		if (c == 0)
-		{
-			this.skeleton.setPose(0);
-		}
-		
-		if (c == r * 2)
-		{
-			this.skeleton.setPose(1);
-		}
-		
-		// /animation
 		
 		a = _input.query();
 		
@@ -164,10 +143,12 @@ class GameObjectPlayer extends GameObjectHuman
 		{
 			this.timeJump--;
 		}
-		
-		if (this.timeDuck > 0)
+		else if (this.timeDuck > 0)
 		{
 			this.timeDuck--;
+		}
+		else
+		{
 		}
 		
 		this.mapY += this.speedY;

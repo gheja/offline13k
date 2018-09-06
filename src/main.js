@@ -101,13 +101,14 @@ function frame()
 function init()
 {
 	_canvas = document.getElementById("c");
-	_level = new Level();
-	_player = new GameObjectPlayer();
-	_input = new InputKeyboard();
 	_gameSpeed = 0.05;
 	_ticks = 0;
 	_gfx = new Gfx();
 	_gfx.init();
+	
+	_level = new Level();
+	_player = new GameObjectPlayer();
+	_input = new InputKeyboard();
 	
 	tickInit();
 	
