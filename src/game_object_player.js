@@ -11,6 +11,7 @@ class GameObjectPlayer extends GameObjectHuman
 		this.mapZ = 0;
 		this.speedY = 0;
 		this.speedX = 0;
+		this.speedZ = 0;
 		this.timeJump = 0;
 		this.timeDuck = 0;
 		this.targetMapX = 7;
@@ -65,6 +66,7 @@ class GameObjectPlayer extends GameObjectHuman
 	updateObjects()
 	{
 		this.gfxObject.position.x = this.mapX;
+		this.gfxObject.position.y = this.mapZ;
 		this.gfxObject.position.z = this.mapY;
 		
 		if (_gfx.vr.isInVRMode)
@@ -127,11 +129,12 @@ class GameObjectPlayer extends GameObjectHuman
 		}
 		
 		// not jumping or ducking
-		if (this.timeJump == 0 && this.timeDuck == 0)
+		if (this.speedZ == 0 && this.timeDuck == 0)
 		{
 			if (a.y < -0.5)
 			{
 				this.timeJump = TIME_JUMP;
+				this.speedZ = 0.4;
 			}
 			else if (a.y > 0.5)
 			{
@@ -139,24 +142,56 @@ class GameObjectPlayer extends GameObjectHuman
 			}
 		}
 		
-		if (this.timeJump > 0)
-		{
-			this.timeJump--;
-		}
-		else if (this.timeDuck > 0)
-		{
-			this.timeDuck--;
-		}
-		else
-		{
-		}
+		this.speedZ = this.speedZ - 1 / TPS; // gravity
 		
 		this.mapY += this.speedY;
 		this.mapX += this.speedX;
+		this.mapZ += this.speedZ;
+		
+		// ground contact
+		if (this.mapZ < 0)
+		{
+			this.mapZ = 0;
+			this.speedZ = 0;
+		}
 		
 		if (this.mapY > 100)
 		{
 			this.mapY = 0;
+		}
+		
+		if (this.timeJump > 0)
+		{
+			this.timeJump--;
+		}
+		
+		if (this.timeDuck > 0)
+		{
+			this.timeDuck--;
+		}
+		
+		if (this.speedZ > 0)
+		{
+			// jumping
+			this.animationStartStop([ 1 ], [ 0, 2, 3 ]);
+		}
+		else if (this.speedZ < 0)
+		{
+			// falling
+			this.animationStartStop([ 3 ], [ 0, 1, 2 ]);
+		}
+		else
+		{
+			if (this.timeDuck > 5)
+			{
+				// ducking
+				this.animationStartStop([ 2 ], [ 0, 1, 3 ]);
+			}
+			else
+			{
+				// running
+				this.animationStartStop([ 0 ], [ 1, 2, 3 ]);
+			}
 		}
 		
 		this.updateObstacles();
