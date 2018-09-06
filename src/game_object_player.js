@@ -1,6 +1,6 @@
 "use strict";
 
-class GameObjectPlayer extends GameObject
+class GameObjectPlayer extends GameObjectHuman
 {
 	constructor()
 	{
