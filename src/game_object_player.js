@@ -19,6 +19,11 @@ class GameObjectPlayer extends GameObjectHuman
 	
 	init()
 	{
+		this.gfxObject.easePosition = {
+			x: this.gfxObject.position.x,
+			y: this.gfxObject.position.y,
+			z: this.gfxObject.position.z
+		};
 	}
 	
 	updateObstacles()
@@ -68,6 +73,10 @@ class GameObjectPlayer extends GameObjectHuman
 		this.gfxObject.position.x = (this.mapX - 0.5) * 2;
 		this.gfxObject.position.y = this.mapZ;
 		this.gfxObject.position.z = this.mapY * 3;
+		
+		this.gfxObject.easePosition.x += (this.gfxObject.position.x - this.gfxObject.easePosition.x) * 0.1;
+		this.gfxObject.easePosition.y += (this.gfxObject.position.y - this.gfxObject.easePosition.y) * 0.1;
+		this.gfxObject.easePosition.z += (this.gfxObject.position.z - this.gfxObject.easePosition.z) * 0.1;
 		
 		if (_gfx.vr.isInVRMode)
 		{
