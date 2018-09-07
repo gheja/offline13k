@@ -71,16 +71,16 @@ class GameObjectPlayer extends GameObjectHuman
 		
 		if (_gfx.vr.isInVRMode)
 		{
-			_gfx.vr.currentVRCamera.position.x = this.gfxObject.position.x;
-			_gfx.vr.currentVRCamera.position.y = this.gfxObject.position.y + 1.7;
-			_gfx.vr.currentVRCamera.position.z = this.gfxObject.position.z - 1.5;
+			_gfx.vr.currentVRCamera.position.x = this.gfxObject.easePosition.x;
+			_gfx.vr.currentVRCamera.position.y = this.gfxObject.easePosition.y + 2.3;
+			_gfx.vr.currentVRCamera.position.z = this.gfxObject.easePosition.z - 1.5;
 			_gfx.vr.currentVRCamera.minZ = 0.2;
 		}
 		else
 		{
-			_gfx.scene1.activeCamera.position.x = this.gfxObject.position.x;
-			_gfx.scene1.activeCamera.position.y = this.gfxObject.position.y + 1.7;
-			_gfx.scene1.activeCamera.position.z = this.gfxObject.position.z - 3;
+			_gfx.scene1.activeCamera.position.x = this.gfxObject.easePosition.x;
+			_gfx.scene1.activeCamera.position.y = this.gfxObject.easePosition.y + 2.3;
+			_gfx.scene1.activeCamera.position.z = this.gfxObject.easePosition.z - 3;
 		}
 		
 		this.updateAnimation();
