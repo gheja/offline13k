@@ -12,8 +12,8 @@ class GameObject
 		this.rotation = 0;
 		
 		this.gfxObject = null;
-		
 		this.limbs = [];
+		this.animations = [];
 	}
 	
 	setLimbPadTarget(limbIndex, x, y, z)

@@ -17,8 +17,6 @@ class GameObjectHuman extends GameObject
 		this.limbs.push({ gfxObject: _gfx.placeObject(OBJ_HAND, {}, {}), pad: { x: 0, y: 0, z: 0 }, padTarget: { x:  0.3, y: 1.0, z: 0 }});
 		this.limbs.push({ gfxObject: _gfx.placeObject(OBJ_HAND, {}, {}), pad: { x: 0, y: 0, z: 0 }, padTarget: { x:  0.0, y: 1.8, z: 0 }});
 		
-		this.animations = [];
-		
 		// running
 		this.animations.push({
 			frame: 0,
