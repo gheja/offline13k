@@ -143,7 +143,7 @@ class GameObjectPlayer extends GameObjectHuman
 			if (a.y < -0.5)
 			{
 				this.timeJump = TIME_JUMP;
-				this.speedZ = 0.4;
+				this.speedZ = 0.25;
 			}
 			else if (a.y > 0.5)
 			{
