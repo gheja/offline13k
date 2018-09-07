@@ -65,9 +65,9 @@ class GameObjectPlayer extends GameObjectHuman
 	
 	updateObjects()
 	{
-		this.gfxObject.position.x = this.mapX;
+		this.gfxObject.position.x = (this.mapX - 0.5) * 2;
 		this.gfxObject.position.y = this.mapZ;
-		this.gfxObject.position.z = this.mapY;
+		this.gfxObject.position.z = this.mapY * 3;
 		
 		if (_gfx.vr.isInVRMode)
 		{

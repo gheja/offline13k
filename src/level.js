@@ -88,7 +88,7 @@ class Level
 				
 				if (a >= OBJ_MODEL_FIRST && a <= OBJ_MODEL_LAST)
 				{
-					_obstacles.push(new GameObjectObstacle(x, y, 0.5, a));
+					_obstacles.push(new GameObjectObstacle((x - 0.5) * 2, y * 3, 1.5, a));
 				}
 			}
 		}
