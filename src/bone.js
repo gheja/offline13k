@@ -11,6 +11,7 @@ class Bone
 		this.b = 0;
 		this.targetA = 0;
 		this.targetB = 0;
+		this.startA = 0;
 		this.posA = 0;
 		this.maxA = 1;
 	}
