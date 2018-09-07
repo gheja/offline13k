@@ -84,7 +84,7 @@ class GameObjectPlayer extends GameObjectHuman
 		}
 		
 		this.updateAnimation();
-		this.updateLimbs();
+		this.updateLimbs(false);
 	}
 	
 	tick()
