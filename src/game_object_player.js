@@ -12,8 +12,8 @@ class GameObjectPlayer extends GameObjectHuman
 		this.speedY = 0;
 		this.speedX = 0;
 		this.speedZ = 0;
-		this.timeJump = 0;
-		this.timeDuck = 0;
+		this.timeJumpCooldown = 0;
+		this.timeDuckCooldown = 0;
 		this.targetMapX = 7;
 	}
 	
@@ -39,11 +39,11 @@ class GameObjectPlayer extends GameObjectHuman
 		{
 			if (_obstacles[i].distance == 0)
 			{
-				if (this.timeDuck == 0 && _obstacles[i].blockUp)
+				if (this.timeDuckCooldown == 0 && _obstacles[i].blockUp)
 				{
 					console.log("hit");
 				}
-				else if (this.timeJump == 0 && _obstacles[i].blockDown)
+				else if (this.timeJumpCooldown == 0 && _obstacles[i].blockDown)
 				{
 					console.log("hit");
 				}
@@ -129,16 +129,16 @@ class GameObjectPlayer extends GameObjectHuman
 		}
 		
 		// not jumping or ducking
-		if (this.timeJump <= 0 && this.timeDuck <= 0)
+		if (this.timeJumpCooldown <= 0 && this.timeDuckCooldown <= 0)
 		{
 			if (a.y < -0.5)
 			{
-				this.timeJump = TIME_JUMP;
+				this.timeJumpCooldown = TIME_JUMP_COOLDOWN;
 				this.speedZ = 0.25;
 			}
 			else if (a.y > 0.5)
 			{
-				this.timeDuck = TIME_DUCK;
+				this.timeDuckCooldown = TIME_DUCK_COOLDOWN;
 			}
 		}
 		
@@ -160,14 +160,14 @@ class GameObjectPlayer extends GameObjectHuman
 			this.mapY = 0;
 		}
 		
-		if (this.timeJump > 0)
+		if (this.timeJumpCooldown > 0)
 		{
-			this.timeJump--;
+			this.timeJumpCooldown--;
 		}
 		
-		if (this.timeDuck > 0)
+		if (this.timeDuckCooldown > 0)
 		{
-			this.timeDuck--;
+			this.timeDuckCooldown--;
 		}
 		
 		if (this.speedZ > 0)
@@ -182,7 +182,8 @@ class GameObjectPlayer extends GameObjectHuman
 		}
 		else
 		{
-			if (this.timeDuck > 5)
+			// no separate timer for real ducking
+			if (this.timeDuckCooldown > TIME_DUCK_COOLDOWN - TIME_DUCK)
 			{
 				// ducking
 				this.animationStartStop([ 2 ], [ 0, 1, 3 ]);
