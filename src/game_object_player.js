@@ -129,7 +129,7 @@ class GameObjectPlayer extends GameObjectHuman
 		}
 		
 		// not jumping or ducking
-		if (this.speedZ == 0 && this.timeDuck == 0)
+		if (this.timeJump <= 0 && this.timeDuck <= 0)
 		{
 			if (a.y < -0.5)
 			{
