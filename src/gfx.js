@@ -53,19 +53,26 @@ class Gfx
 	{
 		this.activeSceneIndex = index;
 		
+		this.scene.light2.setEnabled(false);
+		this.scene.light3.setEnabled(false);
+		
 		if (index == 0)
 		{
+			// office
 			this.scene.clearColor = new BABYLON.Color3(0.6, 0.6, 0.6);
 			this.scene.fogColor = new BABYLON.Color3(0.6, 0.6, 0.6);
 			this.scene.fogStart = 10;
 			this.scene.fogEnd = 20;
+			this.scene.light2.setEnabled(true);
 		}
 		else
 		{
+			// street
 			this.scene.clearColor = new BABYLON.Color3(0.38, 0.75, 0.9);
 			this.scene.fogColor = new BABYLON.Color3(0.38, 0.75, 0.9);
 			this.scene.fogStart = 20;
-			this.scene.fogEnd = 70;
+			this.scene.fogEnd = 50;
+			this.scene.light3.setEnabled(true);
 		}
 	}
 	
@@ -223,9 +230,6 @@ class Gfx
 		scene.light1.specular = new BABYLON.Color3(1.0, 0.9, 0.5);
 		scene.light1.groundColor = new BABYLON.Color3(0.2, 0.2, 0.2);
 		
-		scene.light2 = new BABYLON.PointLight("", new BABYLON.Vector3(-50, 150, 500), scene);
-		scene.light2.intensity = 0.4;
-		
 		camera = new BABYLON.FreeCamera("", new BABYLON.Vector3(0, 1.7, 0), scene);
 		camera.rotation.x = _rotation(0.03);
 		camera.minZ = 0.2;
@@ -239,10 +243,19 @@ class Gfx
 		this.loadModelFromString(OBJ_EDGE, "1  50  16  0  25  0 0 0 33 0 0 33 70 0 0 50 0 0 90 50 33 90 50 33 0 50 0 0 50  0 1 2 3 7 0 3 4 1 6 5 2 3 2 5 4  0 0 4 0 0 0 0 0 0 0", scene);
  		this.loadModelFromString(OBJ_PLAYER, "1  1  50  0  50  0 0 0 100 0 0 100 100 0 0 100 0 0 100 100 100 100 100 100 0 100 0 0 100  0 1 2 3 3 2 5 4 7 0 3 4 1 6 5 2  0 0 4 0 0 0 0 0 0 0", scene);
 		this.loadModelFromString(OBJ_HAND, "1  1  50  0  50  0 0 0 100 0 0 100 100 0 0 100 0 0 100 100 100 100 100 100 0 100 0 0 100  0 1 2 3 3 2 5 4 7 0 3 4 1 6 5 2  0 0 4 0 0 0 0 0 0 0", scene);
-		this.loadModelFromString(OBJ_DESK, "1  20  50  0  0  0 0 5 5 0 5 5 50 5 0 50 5 0 0 10 5 0 10 5 50 10 0 50 10 0 50 0 100 50 0 100 50 44 0 50 44 0 53 0 100 53 0 100 53 44 0 53 44  0 1 2 3 4 0 3 7 1 5 6 2 12 8 9 13 9 10 14 13 11 8 12 15 15 12 13 14  2 3 4 0 0 0 0 0 0 0 0 0 3 1 95 0 0 0 0 0", scene);
+		this.loadModelFromString(OBJ_DESK, "1  20  50  0  0  0 0 5 5 0 5 5 50 5 0 50 5 0 0 10 5 0 10 5 50 10 0 50 10 0 50 0 100 50 0 100 50 44 0 50 44 0 51 0 100 51 0 100 51 44 0 51 44  0 1 2 3 4 0 3 7 1 5 6 2 12 8 9 13 9 10 14 13 11 8 12 15 15 12 13 14  2 3 4 0 0 0 0 0 0 0 0 0 3 1 95 0 0 0 0 0", scene);
+		this.loadModelFromString(OBJ_OFFICE_WALLS, "1  100  50  0  50  0 0 100 10 0 100 10 12 100 0 30 100 16 12 100 16 0 100 100 31 100 100 0 100 100 0 0 100 30 0 76 27 97 76 5 97 23 5 97 23 27 97 100 0 110 100 20 110 0 20 110 10 12 99 10 0 99 16 0 99 16 12 99 17 13 99 17 13 100 9 13 100 9 13 99 9 0 99 17 0 99 17 0 100 0 0 110  25 18 17 24 26 27 22 21 19 26 21 20 17 20 21 24 18 1 2 17 17 2 4 20 16 28 14 15 7 8 9 6 6 4 5 7 0 1 2 3 2 4 6 3 13 12 11 10  3 11 1 0 0 0 0 0 0 0 0 6 5 0 0 0 0 0 0 0 1 0 6 0 0 0 0 0 0 0", scene);
+		this.loadModelFromString(OBJ_FLOOR_WARNING, "1  30  4  0  9  0 0 0 10 0 0 9 24 9 0 24 9 3 0 0 3 6 2 7 6 2 7 0 0 0 0 18 3 0 18 3 6 16 7 0 18 10 0 18 7 6 16  7 1 2 6 5 6 2 3 0 4 5 3 8 9 10 3 10 13 2 3 11 12 2 13  0 0 6 0 0 0 0 0 0 0", scene);
 		
 		
 		// === office ===
+		
+		scene.light2 = new BABYLON.PointLight("", new BABYLON.Vector3(-96, 4, 1), scene);
+		scene.light2.intensity = 0.4;
+		
+		scene.light4 = new BABYLON.PointLight("", new BABYLON.Vector3(-101, 2, 7.5), scene);
+		scene.light4.intensity = 0.4;
+		
 		
 		a = this.quickCanvasMaterial(512, 200, 200, scene);
 		
@@ -255,13 +268,43 @@ class Gfx
 		a.texture.update();
 		
 		plane = BABYLON.Mesh.CreatePlane("", 100, scene);
+		plane.position.y = -0.02;
 		plane.position.x = -100;
 		// plane.receiveShadows = true;
 		plane.material = a.material;
 		plane.rotation.x = _rotation(0.25);
 		
 		
+		a = this.quickCanvasMaterial(512, 200, 200, scene);
+		
+		a.ctx.fillStyle = "#eeeeee";
+		a.ctx.fillRect(0, 0, 512, 512);
+		a.ctx.strokeStyle = "#666655";
+		a.ctx.lineWidth = 3;
+		a.ctx.strokeRect(-10, -10, 512, 512);
+		
+		a.texture.update();
+		
+		plane = BABYLON.Mesh.CreatePlane("", 14, scene);
+		plane.position.y = -0.01;
+		plane.position.z = 3;
+		plane.position.x = -100;
+		// plane.receiveShadows = true;
+		plane.material = a.material;
+		plane.rotation.x = _rotation(0.25);
+		
+		
+		this.placeObject(OBJ_OFFICE_WALLS, { x: -100 + 2, y: 0, z: 2 }, {});
+		this.placeObject(OBJ_FLOOR_WARNING, { x: -100 - 4, y: 0, z: 5.5 }, { x: 0, y: _rotation(-0.22), z: 0 });
+		this.placeObject(OBJ_FLOOR_WARNING, { x: -100 - 5, y: 0, z: 2 }, { x: 0, y: _rotation(-0.2), z: 0 });
+		
+		this.placeObject(OBJ_DESK, { x: -100, y: 0, z: 0.4 }, { x: 0, y: _rotation(0.02), z: 0 });
+		
+		
 		// === street ===
+		
+		scene.light3 = new BABYLON.PointLight("", new BABYLON.Vector3(-50, 150, 500), scene);
+		scene.light3.intensity = 0.4;
 		
 		// this.shadowGenerator = new BABYLON.ShadowGenerator(1024, light1);
 		// this.shadowGenerator.useBlurExponentialShadowMap = true;
@@ -273,8 +316,6 @@ class Gfx
 		// plane.receiveShadows = true;
 		plane.material = this.quickMaterial(0.2, 0.8, 1.0, 1.0, scene);
 		plane.rotation.x = _rotation(0.25);
-		
-		this.placeObject(OBJ_DESK, { x: -100, y: 0, z: 0.3 }, { x: 0, y: _rotation(0.02), z: 0 });
 		
 		scene.onBeforeAnimationsObservable.add(this.onUpdate.bind(this));
 		

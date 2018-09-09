@@ -10,17 +10,21 @@ const LEVEL_HEIGHT = 100;
 const OBJ_DISABLED = 0;
 const OBJ_UNDECIDED = 1;
 const OBJ_NONE = 2;
+
 const OBJ_OBSTACLE_LOWER = 3;
 const OBJ_OBSTACLE_UPPER = 4;
 const OBJ_OBSTACLE_FULL = 5;
 const OBJ_EDGE = 6;
-const OBJ_PLAYER = 7;
-const OBJ_HAND = 7;
-const OBJ_DESK = 8;
-const OBJ_TILE = 9;
+
+const OBJ_PLAYER = 11;
+const OBJ_HAND = 12;
+const OBJ_DESK = 13;
+const OBJ_TILE = 14;
+const OBJ_OFFICE_WALLS = 15;
+const OBJ_FLOOR_WARNING = 16;
 
 const OBJ_MODEL_FIRST = OBJ_OBSTACLE_LOWER;
-const OBJ_MODEL_LAST = OBJ_TILE;
+const OBJ_MODEL_LAST = OBJ_PLAYER - 1;
 
 const TILE_DISABLED = 0;
 const TILE_UNDECIDED = 1;
