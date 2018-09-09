@@ -20,7 +20,6 @@ class Gfx
 		
 		this.scene = this.createScene();
 		this.scene.activeCamera.inputs.clear();
-		this.scene.activeCamera.inputs.addMouse();
 		
 		this.switchScene(0);
 		
