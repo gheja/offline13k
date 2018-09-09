@@ -14,6 +14,8 @@ class InputJS
 		this.controls = [];
 		this.callbackDone = null;
 		this.callbackFailed = null;
+		this.callbackMessage = null;
+		this.timer = null;
 		this.state = INPUT_STATE_FIRST_INPUT;
 		
 		window.setInterval(this.update.bind(this), 1000/60);
