@@ -64,13 +64,6 @@ function tick()
 {
 	_ticks++;
 	
-/*
-	if (_ticks % 60 == 0)
-	{
-		_gameSpeed *= 1.02;
-	}
-*/
-	
 	_player.tick();
 }
 
@@ -79,17 +72,9 @@ function tickInit()
 	_nextTickTime = performance.now();
 }
 
-function frame()
+function tickCatchUp()
 {
 	let now;
-	
-	if (DEV_BUILD)
-	{
-		if (_windowHidden)
-		{
-			return;
-		}
-	}
 	
 	now = performance.now();
 	
@@ -119,8 +104,6 @@ function init()
 	_player.init();
 	_level.generate();
 	_level.load();
-	
-	window.setInterval(frame, 1000 / FPS);
 	
 	musicGenerate();
 	

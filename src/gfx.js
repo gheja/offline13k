@@ -293,8 +293,8 @@ class Gfx
 		
 		if (this.activeSceneIndex == 1)
 		{
+			tickCatchUp();
 			_player.updateObjects();
-			frame();
 		}
 		else
 		{
