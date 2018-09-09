@@ -361,7 +361,7 @@ class Gfx
 		{
 			// office.frame();
 			_gfx.scene.activeCamera.position.x = -100;
-			_gfx.scene.activeCamera.position.y = 1.3;
+			_gfx.scene.activeCamera.position.y = 1.4;
 			_gfx.scene.activeCamera.position.z = 0;
 		}
 	}
