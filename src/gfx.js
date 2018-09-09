@@ -29,6 +29,17 @@ class Gfx
 		
 		this.engine.runRenderLoop(this.onRenderLoop.bind(this));
 		
+		if (DEV_BUILD)
+		{
+			_canvas.addEventListener("click", function() {
+				let pickResult = _gfx.scene.pick(_gfx.scene.pointerX, _gfx.scene.pointerY);
+				if (pickResult.hit)
+				{
+					console.log(pickResult.pickedPoint.x + ", " + pickResult.pickedPoint.y + ", " + pickResult.pickedPoint.z);
+				}
+			});
+		}
+		
 		bindEvent(window, "resize", this.onResize.bind(this));
 	}
 	
