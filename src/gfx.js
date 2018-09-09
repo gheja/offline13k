@@ -5,9 +5,10 @@ class Gfx
 	constructor()
 	{
 		this.engine = null;
-		this.scene1 = null;
+		this.activeSceneIndex = null;
+		this.scene = null;
 		this.vr = null;
-		this.mat2 = null;
+		this.mat2 = null; // << remove this
 		this.materials = [];
 		// this.shadowGenerator = null;
 		
@@ -17,12 +18,55 @@ class Gfx
 	init()
 	{
 		this.engine = new BABYLON.Engine(_canvas, true, { preserveDrawingBuffer: true, stencil: true });
-		this.scene1 = this.createScene();
+		
+		this.scene = this.createScene();
+		this.scene.activeCamera.inputs.clear();
+		this.scene.activeCamera.inputs.addMouse();
+		
+		this.switchScene(0);
+		
+		window.setInterval(function() {
+			if (_gfx.activeSceneIndex == 0)
+			{
+				_gfx.switchScene(1);
+			}
+			else
+			{
+				_gfx.switchScene(0);
+			}
+		}, 2000)
+		
 		this.engine.runRenderLoop(this.onRenderLoop.bind(this));
-		this.scene1.activeCamera.inputs.clear();
-		this.scene1.activeCamera.inputs.addMouse();
 		
 		bindEvent(window, "resize", this.onResize.bind(this));
+	}
+	
+	switchScene(index)
+	{
+		this.activeSceneIndex = index;
+		
+		if (index == 0)
+		{
+			this.scene.clearColor = new BABYLON.Color3(0.6, 0.6, 0.6);
+			this.scene.fogColor = new BABYLON.Color3(0.6, 0.6, 0.6);
+			this.scene.fogStart = 10;
+			this.scene.fogEnd = 20;
+		}
+		else
+		{
+			this.scene.clearColor = new BABYLON.Color3(0.38, 0.75, 0.9);
+			this.scene.fogColor = new BABYLON.Color3(0.38, 0.75, 0.9);
+			this.scene.fogStart = 20;
+			this.scene.fogEnd = 70;
+		}
+	}
+	
+	createDefaultMaterials(scene)
+	{
+		this.materials.push(this.quickMaterial(0.5, 0.5, 0.5, 1.0, scene));
+		this.materials.push(this.quickMaterial(1.0, 0, 0, 1.0, scene));
+		this.materials.push(this.quickMaterial(0, 1.0, 0, 1.0, scene));
+		this.materials.push(this.quickMaterial(0, 0, 1.0, 1.0, scene));
 	}
 	
 	quickMaterial(r, g, b, a, scene)
@@ -35,6 +79,24 @@ class Gfx
 		material.alpha = a;
 		
 		return material;
+	}
+	
+	quickCanvasMaterial(size, u, v, scene)
+	{
+		let texture, ctx, material;
+		
+		texture = new BABYLON.DynamicTexture("", size, scene, true);
+		texture.wrapU = true;
+		texture.wrapV = true;
+		texture.uScale = u;
+		texture.vScale = v;
+		
+		ctx = texture.getContext();
+		
+		material = new BABYLON.StandardMaterial("", scene);
+		material.diffuseTexture = texture;
+		
+		return { material: material, texture: texture, ctx: ctx };
 	}
 	
 	loadModelFromString(key, s, scene)
@@ -112,6 +174,7 @@ class Gfx
 		mesh.scaling.x = 0.001 * model.scale;
 		mesh.scaling.y = 0.001 * model.scale;
 		mesh.scaling.z = 0.001 * model.scale;
+		mesh.setEnabled(false);
 		
 		this.objectPrototypes[key] = mesh;
 	}
@@ -142,9 +205,8 @@ class Gfx
 		let scene, plane, light1, light2, camera, a;
 		
 		scene = new BABYLON.Scene(this.engine);
-		scene.clearColor = new BABYLON.Color3(0.38, 0.75, 0.9);
 		scene.ambientColor = new BABYLON.Color3(0.38, 0.75, 0.9);
-		scene.fogColor = new BABYLON.Color3(0.38, 0.75, 0.9);
+		scene.fogMode = BABYLON.Scene.FOGMODE_LINEAR;
 		
 		light1 = new BABYLON.PointLight("", new BABYLON.Vector3(-50, 100, 300), scene);
 		light1.intensity = 0.8;
@@ -152,14 +214,42 @@ class Gfx
 		light2 = new BABYLON.PointLight("", new BABYLON.Vector3(0, 150, -300), scene);
 		light2.intensity = 0.6;
 		
-		camera = new BABYLON.FreeCamera("", new BABYLON.Vector3(0, 1.7, -20), scene);
+		camera = new BABYLON.FreeCamera("", new BABYLON.Vector3(0, 1.7, 0), scene);
 		camera.rotation.x = _rotation(0.03);
 		camera.minZ = 0.2;
 		
-		this.materials.push(this.quickMaterial(0.5, 0.5, 0.5, 1.0, scene));
-		this.materials.push(this.quickMaterial(1.0, 0, 0, 1.0, scene));
-		this.materials.push(this.quickMaterial(0, 1.0, 0, 1.0, scene));
-		this.materials.push(this.quickMaterial(0, 0, 1.0, 1.0, scene));
+		
+		// common objects
+		this.createDefaultMaterials(scene);
+		this.loadModelFromString(OBJ_OBSTACLE_FULL, "1  20  50  0  50  30 0 30 70 0 30 80 46 20 20 60 20 30 0 30 30 0 70 70 0 70 85 100 80 20 60 80  0 1 2 3 5 0 3 8 1 6 7 2 3 2 7 8 5 8 7 6  1 0 5 0 0 0 0 0 0 0", scene);
+		this.loadModelFromString(OBJ_OBSTACLE_UPPER, "1  20  50  0  50  0 0 0 5 0 0 5 40 30 0 40 30 0 0 4 0 40 35 0 0 65 0 0 70 0 47 35 5 0 70 5 0 65 4 47 35 5 40 35 5 0 5 0 50 30 0 50 35 10 50 35 10 50 30 17 50 35 17 50 30 9 40 30 11 40 35 24 50 35 24 50 30 16 40 30 79 40 30 90 40 30 89 50 30 89 50 35 87 50 35 87 50 30 90 40 35 2 40 30  1 13 12 2 3 2 11 8 10 9 11 12 6 10 12 5 7 8 11 9 7 6 5 8 4 0 3 5 0 1 2 3 20 24 23 19 19 23 22 18 32 20 19 17 17 19 18 16 26 31 28 27 14 17 16 15 3 32 17 14 26 27 30 25 27 28 29 30 5 3 14 15  0 12 6 0 0 0 0 0 0 0 1 10 2 5 14 0 0 0 0 0 0 8 2 4 14 0 0 0 0 0 0 0 8 1 85 0 0 0 0 0", scene);
+		this.loadModelFromString(OBJ_OBSTACLE_LOWER, "0  20  50  0  50  30 0 0 70 0 1 100 10 20 0 10 0 30 0 30 30 0 70 83 0 94 60 28 80 40 40 80  0 1 2 3 5 0 3 8 1 6 7 2 3 2 7 8  3 0 4 0 0 0 0 0 0 0", scene);
+		this.loadModelFromString(OBJ_EDGE, "1  50  16  0  25  0 0 0 33 0 0 33 70 0 0 50 0 0 90 50 33 90 50 33 0 50 0 0 50  0 1 2 3 7 0 3 4 1 6 5 2 3 2 5 4  0 0 4 0 0 0 0 0 0 0", scene);
+ 		this.loadModelFromString(OBJ_PLAYER, "1  1  50  0  50  0 0 0 100 0 0 100 100 0 0 100 0 0 100 100 100 100 100 100 0 100 0 0 100  0 1 2 3 3 2 5 4 7 0 3 4 1 6 5 2  0 0 4 0 0 0 0 0 0 0", scene);
+		this.loadModelFromString(OBJ_HAND, "1  1  50  0  50  0 0 0 100 0 0 100 100 0 0 100 0 0 100 100 100 100 100 100 0 100 0 0 100  0 1 2 3 3 2 5 4 7 0 3 4 1 6 5 2  0 0 4 0 0 0 0 0 0 0", scene);
+		this.loadModelFromString(OBJ_DESK, "1  20  50  0  0  0 0 5 5 0 5 5 50 5 0 50 5 0 0 10 5 0 10 5 50 10 0 50 10 0 50 0 100 50 0 100 50 44 0 50 44 0 53 0 100 53 0 100 53 44 0 53 44  0 1 2 3 4 0 3 7 1 5 6 2 12 8 9 13 9 10 14 13 11 8 12 15 15 12 13 14  2 3 4 0 0 0 0 0 0 0 0 0 3 1 95 0 0 0 0 0", scene);
+		
+		
+		// === office ===
+		
+		a = this.quickCanvasMaterial(512, 200, 200, scene);
+		
+		a.ctx.fillStyle = "#808080";
+		a.ctx.fillRect(0, 0, 512, 512);
+		a.ctx.strokeStyle = "#000000";
+		a.ctx.lineWidth = 3;
+		a.ctx.strokeRect(-10, -10, 512, 512);
+		
+		a.texture.update();
+		
+		plane = BABYLON.Mesh.CreatePlane("", 100, scene);
+		plane.position.x = -100;
+		// plane.receiveShadows = true;
+		plane.material = a.material;
+		plane.rotation.x = _rotation(0.25);
+		
+		
+		// === street ===
 		
 		this.mat2 = this.quickMaterial(0.2, 0.8, 1.0, 1.0, scene);
 		
@@ -174,34 +264,31 @@ class Gfx
 		plane.material = this.mat2;
 		plane.rotation.x = _rotation(0.25);
 		
+		this.placeObject(OBJ_DESK, { x: -100, y: 0, z: 0.3 }, { x: 0, y: _rotation(0.02), z: 0 });
+		
 		scene.onBeforeAnimationsObservable.add(this.onUpdate.bind(this));
 		
-		// Enable VR
-		this.vr = scene.createDefaultVRExperience();
-		
-		a = "1  10  50  0  50  0 0 0 100 0 0 100 100 0 0 100 0 0 100 100 100 100 100 100 0 100 0 0 100  0 1 2 3 3 2 5 4 7 0 3 4 1 6 5 2  0 0 4 0 0 0 0 0 0 0";
-		
-		this.loadModelFromString(OBJ_OBSTACLE_FULL, "1  20  50  0  50  30 0 30 70 0 30 80 46 20 20 60 20 30 0 30 30 0 70 70 0 70 85 100 80 20 60 80  0 1 2 3 5 0 3 8 1 6 7 2 3 2 7 8 5 8 7 6  1 0 5 0 0 0 0 0 0 0", scene);
-		this.loadModelFromString(OBJ_OBSTACLE_UPPER, "1  20  50  0  50  0 0 0 5 0 0 5 40 30 0 40 30 0 0 4 0 40 35 0 0 65 0 0 70 0 47 35 5 0 70 5 0 65 4 47 35 5 40 35 5 0 5 0 50 30 0 50 35 10 50 35 10 50 30 17 50 35 17 50 30 9 40 30 11 40 35 24 50 35 24 50 30 16 40 30 79 40 30 90 40 30 89 50 30 89 50 35 87 50 35 87 50 30 90 40 35 2 40 30  1 13 12 2 3 2 11 8 10 9 11 12 6 10 12 5 7 8 11 9 7 6 5 8 4 0 3 5 0 1 2 3 20 24 23 19 19 23 22 18 32 20 19 17 17 19 18 16 26 31 28 27 14 17 16 15 3 32 17 14 26 27 30 25 27 28 29 30 5 3 14 15  0 12 6 0 0 0 0 0 0 0 1 10 2 5 14 0 0 0 0 0 0 8 2 4 14 0 0 0 0 0 0 0 8 1 85 0 0 0 0 0", scene);
-		this.loadModelFromString(OBJ_OBSTACLE_LOWER, "0  20  50  0  50  30 0 0 70 0 1 100 10 20 0 10 0 30 0 30 30 0 70 83 0 94 60 28 80 40 40 80  0 1 2 3 5 0 3 8 1 6 7 2 3 2 7 8  3 0 4 0 0 0 0 0 0 0", scene);
-		this.loadModelFromString(OBJ_EDGE, "1  50  16  0  25  0 0 0 33 0 0 33 70 0 0 50 0 0 90 50 33 90 50 33 0 50 0 0 50  0 1 2 3 7 0 3 4 1 6 5 2 3 2 5 4  0 0 4 0 0 0 0 0 0 0", scene);
-		
-		a = "1  1  50  0  50  0 0 0 100 0 0 100 100 0 0 100 0 0 100 100 100 100 100 100 0 100 0 0 100  0 1 2 3 3 2 5 4 7 0 3 4 1 6 5 2  0 0 4 0 0 0 0 0 0 0";
- 		this.loadModelFromString(OBJ_PLAYER, a, scene);
-		this.loadModelFromString(OBJ_HAND, a, scene);
-		
-		scene.fogMode = BABYLON.Scene.FOGMODE_LINEAR;
-		scene.fogStart = 20;
-		scene.fogEnd = 70;
+		scene.vr = scene.createDefaultVRExperience();
 		
 		return scene;
 	}
 	
 	onUpdate()
 	{
-		let a, b;
+		this.scene.activeCamera.minZ = 0.1;
 		
-		_player.updateObjects();
+		if (this.activeSceneIndex == 1)
+		{
+			_player.updateObjects();
+			frame();
+		}
+		else
+		{
+			// office.frame();
+			_gfx.scene.activeCamera.position.x = -100;
+			_gfx.scene.activeCamera.position.y = 1.3;
+			_gfx.scene.activeCamera.position.z = 0;
+		}
 	}
 	
 	onResize()
@@ -218,8 +305,6 @@ class Gfx
 				return;
 			}
 		}
-		
-		frame();
-		this.scene1.render();
+		this.scene.render();
 	}
 }

@@ -64,10 +64,12 @@ function tick()
 {
 	_ticks++;
 	
+/*
 	if (_ticks % 60 == 0)
 	{
 		_gameSpeed *= 1.02;
 	}
+*/
 	
 	_player.tick();
 }

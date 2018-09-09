@@ -16,9 +16,11 @@ const OBJ_OBSTACLE_FULL = 5;
 const OBJ_EDGE = 6;
 const OBJ_PLAYER = 7;
 const OBJ_HAND = 7;
+const OBJ_DESK = 8;
+const OBJ_TILE = 9;
 
 const OBJ_MODEL_FIRST = OBJ_OBSTACLE_LOWER;
-const OBJ_MODEL_LAST = OBJ_HAND;
+const OBJ_MODEL_LAST = OBJ_TILE;
 
 const TILE_DISABLED = 0;
 const TILE_UNDECIDED = 1;
