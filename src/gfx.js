@@ -208,17 +208,20 @@ class Gfx
 	
 	createScene()
 	{
-		let scene, plane, light1, light2, camera, a;
+		let scene, plane, camera, a;
 		
 		scene = new BABYLON.Scene(this.engine);
 		scene.ambientColor = new BABYLON.Color3(0.38, 0.75, 0.9);
 		scene.fogMode = BABYLON.Scene.FOGMODE_LINEAR;
 		
-		light1 = new BABYLON.PointLight("", new BABYLON.Vector3(-50, 100, 300), scene);
-		light1.intensity = 0.8;
 		
-		light2 = new BABYLON.PointLight("", new BABYLON.Vector3(0, 150, -300), scene);
-		light2.intensity = 0.6;
+		scene.light1 = new BABYLON.HemisphericLight("hemiLight", new BABYLON.Vector3(-1, 1, 0), scene);
+		scene.light1.diffuse = new BABYLON.Color3(0.72, 0.70, 0.65);
+		scene.light1.specular = new BABYLON.Color3(1.0, 0.9, 0.5);
+		scene.light1.groundColor = new BABYLON.Color3(0.2, 0.2, 0.2);
+		
+		scene.light2 = new BABYLON.PointLight("", new BABYLON.Vector3(-50, 150, 500), scene);
+		scene.light2.intensity = 0.4;
 		
 		camera = new BABYLON.FreeCamera("", new BABYLON.Vector3(0, 1.7, 0), scene);
 		camera.rotation.x = _rotation(0.03);
