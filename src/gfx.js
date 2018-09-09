@@ -196,6 +196,7 @@ class Gfx
 		}
 		
 		a = this.objectPrototypes[key].clone();
+		a.name = ""; // BABYLON._raySelectionPredicate depends on a name
 		_merge(a.position, position);
 		_merge(a.rotation, rotation);
 		a.setEnabled(true);
@@ -274,6 +275,7 @@ class Gfx
 		scene.onBeforeAnimationsObservable.add(this.onUpdate.bind(this));
 		
 		scene.vr = scene.createDefaultVRExperience();
+		scene.vr.enableInteractions();
 		
 		return scene;
 	}
