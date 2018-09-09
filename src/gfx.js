@@ -311,12 +311,6 @@ class Gfx
 		}
 		else
 		{
-			this.scene.a.ctx.fillStyle = "#8080ff";
-			this.scene.a.ctx.fillRect(0, 0, 512, 512);
-			
-			this.scene.a.ctx.fillStyle = "#fff";
-			this.scene.a.ctx.font = "100px arial";
-			
 			a = _gfx.scene.activeCamera.inputs.attached.deviceOrientation._alpha;
 			b = _gfx.scene.activeCamera.inputs.attached.deviceOrientation._beta;
 			c = _gfx.scene.activeCamera.inputs.attached.deviceOrientation._gamma;
@@ -356,12 +350,6 @@ class Gfx
 			this.orientationA = a;
 			this.orientationB = b;
 			this.orientationC = c;
-			
-			this.scene.a.ctx.fillText("a " + Math.round(_gfx.scene.activeCamera.inputs.attached.deviceOrientation._alpha) + " " + Math.round(a), 10, 100);
-			this.scene.a.ctx.fillText("b " + Math.round(_gfx.scene.activeCamera.inputs.attached.deviceOrientation._beta) + " " + Math.round(b), 10, 200);
-			this.scene.a.ctx.fillText("c " + Math.round(_gfx.scene.activeCamera.inputs.attached.deviceOrientation._gamma) + " " + Math.round(c), 10, 300);
-			
-			this.scene.a.texture.update();
 		}
 		
 		if (this.activeSceneIndex == 1)
