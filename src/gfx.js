@@ -291,6 +291,13 @@ class Gfx
 	{
 		this.scene.activeCamera.minZ = 0.1;
 		
+		// mouse controls
+		if (!_gfx.scene.vr.isInVRMode)
+		{
+			_gfx.scene.activeCamera.rotationQuaternion.y = _rotation(((_input.cursor[0] - 0.5) * 0.1));
+			_gfx.scene.activeCamera.rotationQuaternion.x = _rotation(((_input.cursor[1] - 0.5) * 0.05));
+		}
+		
 		if (this.activeSceneIndex == 1)
 		{
 			tickCatchUp();

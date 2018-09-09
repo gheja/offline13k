@@ -10,6 +10,7 @@ class InputJS
 	constructor()
 	{
 		this.inputs = [];
+		this.cursor = [ 0.5, 0.5 ];
 		this.controls = [];
 		this.callbackDone = null;
 		this.callbackFailed = null;
@@ -20,6 +21,7 @@ class InputJS
 	
 	attach(obj)
 	{
+		obj.addEventListener("mousemove", this.handleMouseMove.bind(this));
 		obj.addEventListener("keydown", this.handleEvent.bind(this, 1));
 		obj.addEventListener("keyup", this.handleEvent.bind(this, 0));
 		obj.addEventListener("mousedown", this.handleEvent.bind(this, 1));
@@ -160,6 +162,12 @@ class InputJS
 		}
 	}
 	
+	handleMouseMove(event)
+	{
+		this.cursor[0] = event.clientX / event.target.width;
+		this.cursor[1] = event.clientY / event.target.height;
+	}
+	
 	handleEvent(value, event)
 	{
 		if (event instanceof KeyboardEvent)
@@ -179,6 +187,7 @@ class InputJS
 		else if (event instanceof MouseEvent)
 		{
 			this.setValue("mousebutton" + event.button, value);
+			this.handleMouseMove(event);
 		}
 		
 		if (event.cancellable)
