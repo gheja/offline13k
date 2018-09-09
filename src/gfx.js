@@ -27,17 +27,6 @@ class Gfx
 		
 		this.switchScene(0);
 		
-		window.setInterval(function() {
-			if (_gfx.activeSceneIndex == 0)
-			{
-				_gfx.switchScene(1);
-			}
-			else
-			{
-				_gfx.switchScene(0);
-			}
-		}, 2000)
-		
 		this.engine.runRenderLoop(this.onRenderLoop.bind(this));
 		
 		bindEvent(window, "resize", this.onResize.bind(this));
