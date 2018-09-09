@@ -110,7 +110,9 @@ function init()
 	
 	_level = new Level();
 	_player = new GameObjectPlayer();
-	_input = new InputKeyboard();
+	// _input = new InputKeyboard();
+	_input = new InputJS();
+	_input.setup(_canvas, [ "Up", "Down", "Left", "Right", "Select" ], _gfx.onInputSetupDone, _gfx.onInputSetupFailed, _gfx.message);
 	
 	tickInit();
 	

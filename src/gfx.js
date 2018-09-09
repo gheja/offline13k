@@ -41,6 +41,12 @@ class Gfx
 		bindEvent(window, "resize", this.onResize.bind(this));
 	}
 	
+	message(s)
+	{
+		console.log(s);
+		document.getElementById("message").innerHTML = s;
+	}
+	
 	switchScene(index)
 	{
 		this.activeSceneIndex = index;
@@ -271,6 +277,14 @@ class Gfx
 		scene.vr = scene.createDefaultVRExperience();
 		
 		return scene;
+	}
+	
+	onInputSetupDone()
+	{
+	}
+	
+	onInputSetupFailed()
+	{
 	}
 	
 	onUpdate()

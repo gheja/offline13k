@@ -93,11 +93,11 @@ class GameObjectPlayer extends GameObjectHuman
 		
 		if (mapXFraction < 0.001)
 		{
-			if (a.x > 0.5 && this.mapX <= 7)
+			if (a["Right"] && this.mapX <= 7)
 			{
 				this.targetMapX = Math.round(this.mapX) + 1;
 			}
-			else if (a.x < -0.5 && this.mapX >= 6)
+			else if (a["Left"] && this.mapX >= 6)
 			{
 				this.targetMapX = Math.round(this.mapX) - 1;
 			}
@@ -126,18 +126,18 @@ class GameObjectPlayer extends GameObjectHuman
 		// not jumping or ducking
 		if (this.timeJumpCooldown <= 0 && this.timeDuckCooldown <= 0)
 		{
-			if (a.y < -0.5)
+			if (a["Up"])
 			{
 				this.timeJumpCooldown = TIME_JUMP_COOLDOWN;
 				this.speedZ = 0.25;
 			}
-			else if (a.y > 0.5)
+			else if (a["Down"])
 			{
 				this.timeDuckCooldown = TIME_DUCK_COOLDOWN;
 			}
 		}
 		
-		this.speedZ = this.speedZ - 1 / TPS; // gravity
+		this.speedZ = this.speedZ - 0.9 / TPS; // gravity
 		
 		this.mapY += this.speedY;
 		this.mapX += this.speedX;
