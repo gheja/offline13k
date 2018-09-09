@@ -39,7 +39,7 @@ class InputJS
 		
 		this.attach(obj);
 		
-		for (i in controls)
+		for (i=0; i<controls.length; i++)
 		{
 			this.controls.push({ text: controls[i], input: null });
 		}
@@ -87,7 +87,7 @@ class InputJS
 	{
 		let i;
 		
-		for (i in this.controls)
+		for (i=0; i<this.controls.length; i++)
 		{
 			if (this.controls[i].input === null)
 			{
@@ -113,8 +113,8 @@ class InputJS
 		
 		if (twoWay)
 		{
-			this.setValue(key + "pos", (value > 0 ? value : 0), saveDefault);
-			this.setValue(key + "neg", (value < 0 ? value : 0), saveDefault);
+			this.setValue(key + "pos", (value > 0 ? value : 0), saveDefault, false);
+			this.setValue(key + "neg", (value < 0 ? value : 0), saveDefault, false);
 			return;
 		}
 		
@@ -138,7 +138,7 @@ class InputJS
 			{
 				if (this.state == INPUT_STATE_SETUP)
 				{
-					for (i in this.controls)
+					for (i=0; i<this.controls.length; i++)
 					{
 						if (this.controls[i].input === null)
 						{
@@ -158,7 +158,7 @@ class InputJS
 	{
 		let i;
 		
-		for (i in this.inputs)
+		for (i=0; i<this.inputs.length; i++)
 		{
 			this.inputs[i].wasActive = false;
 		}
@@ -174,21 +174,21 @@ class InputJS
 	{
 		if (event instanceof KeyboardEvent)
 		{
-			this.setValue(event.code ? event.code : event.key, value);
+			this.setValue(event.code ? event.code : event.key, value, false, false);
 		}
 		if (event instanceof TouchEvent)
 		{
-			this.setValue("touch", value);
+			this.setValue("touch", value, false, false);
 		}
 		else if (event instanceof WheelEvent)
 		{
-			this.setValue("wheelX", event.deltaX);
-			this.setValue("wheelY", event.deltaY);
-			this.setValue("wheelZ", event.deltaZ);
+			this.setValue("wheelX", event.deltaX, false, false);
+			this.setValue("wheelY", event.deltaY, false, false);
+			this.setValue("wheelZ", event.deltaZ, false, false);
 		}
 		else if (event instanceof MouseEvent)
 		{
-			this.setValue("mousebutton" + event.button, value);
+			this.setValue("mousebutton" + event.button, value, false, false);
 			this.handleMouseMove(event);
 		}
 		
@@ -204,7 +204,7 @@ class InputJS
 		
 		result = {};
 		
-		for (i in this.controls)
+		for (i=0; i<this.controls.length; i++)
 		{
 			result[this.controls[i].text] = (this.controls[i].input && this.controls[i].input.wasActive);
 		}
@@ -228,7 +228,7 @@ class InputJS
 				{
 					for (j=0; j<gamepads[i].buttons.length; j++)
 					{
-						this.setValue("gamepad" + i + "button" + j, gamepads[i].buttons[j].value ? gamepads[i].buttons[j].value : (gamepads[i].buttons[j].pressed ? 1 : 0));
+						this.setValue("gamepad" + i + "button" + j, gamepads[i].buttons[j].value ? gamepads[i].buttons[j].value : (gamepads[i].buttons[j].pressed ? 1 : 0), false, false);
 					}
 				}
 				
