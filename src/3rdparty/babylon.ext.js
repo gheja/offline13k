@@ -155,7 +155,8 @@ var BABYLON = {
 			"onBeforeAnimationsObservable": {},
 			"createDefaultVRExperience": function() {
 				return {
-					"currentVRCamera": {}
+					"currentVRCamera": {},
+					"isInVRMode": false
 				};
 			},
 			"render": function() {},
@@ -169,7 +170,33 @@ var BABYLON = {
 			"activeCamera": function() {
 				return {
 					"clear": function() {},
-					"addMouse": function() {}
+					"addMouse": function() {},
+					"rotationQuaternion": {
+						"x": 0,
+						"y": 0,
+						"z": 0
+					},
+					"input": {
+						"attached": {
+							"deviceOrientation": {
+								"_alpha": 0,
+								"_beta": 0,
+								"_gamma": 0
+							}
+						}
+					}
+				};
+			},
+			"pointerX": 0,
+			"pointerY": 0,
+			"pick": function()
+			{
+				return {
+					"pickedPoint": {
+						"x": 0,
+						"y": 0,
+						"z": 0
+					}
 				};
 			}
 		};
