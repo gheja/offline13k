@@ -307,7 +307,7 @@ class Gfx
 			this.orientationC = 0;
 			
 			_gfx.scene.activeCamera.rotationQuaternion.y = _rotation(((_input.cursor[0] - 0.5) * 0.1));
-			_gfx.scene.activeCamera.rotationQuaternion.x = _rotation(((_input.cursor[1] - 0.5) * 0.05));
+			_gfx.scene.activeCamera.rotationQuaternion.x = _rotation(((_input.cursor[1] - 0.5) * 0.05) + 0.02);
 		}
 		else
 		{
