@@ -80,8 +80,31 @@ class GameObjectPlayer extends GameObjectHuman
 	{
 		let a, b, mapXFraction;
 		
-		
 		a = _input.query();
+		
+		// VR input
+		if (_gfx.scene.vr.isInVRMode && _gfx.scene.activeCamera.inputs.attached.deviceOrientation)
+		{
+			// if (_gfx.orientationB < -15 || _gfx.orientationA > 10)
+			if (_gfx.orientationB < -15)
+			{
+				a["Left"] = 1.0;
+			}
+			// else if (_gfx.orientationB > 15 || _gfx.orientationA < -10)
+			else if (_gfx.orientationB > 15)
+			{
+				a["Right"] = 1.0;
+			}
+			if (_gfx.orientationC < -5)
+			{
+				a["Up"] = 1.0;
+			}
+			else if (_gfx.orientationC > 10)
+			{
+				a["Down"] = 1.0;
+			}
+		}
+		
 		
 		mapXFraction = Math.abs(this.mapX - Math.round(this.mapX));
 		

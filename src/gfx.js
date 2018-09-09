@@ -9,6 +9,10 @@ class Gfx
 		this.scene = null;
 		this.vr = null;
 		this.materials = [];
+		this.orientationWorking = true;
+		this.orientationA = 0;
+		this.orientationB = 0;
+		this.orientationC = 0;
 		// this.shadowGenerator = null;
 		
 		this.objectPrototypes = {};
@@ -290,13 +294,74 @@ class Gfx
 	
 	onUpdate()
 	{
+		let a, b, c;
+		
 		this.scene.activeCamera.minZ = 0.1;
+		
 		
 		// mouse controls
 		if (!_gfx.scene.vr.isInVRMode)
 		{
+			this.orientationA = 0;
+			this.orientationB = 0;
+			this.orientationC = 0;
+			
 			_gfx.scene.activeCamera.rotationQuaternion.y = _rotation(((_input.cursor[0] - 0.5) * 0.1));
 			_gfx.scene.activeCamera.rotationQuaternion.x = _rotation(((_input.cursor[1] - 0.5) * 0.05));
+		}
+		else
+		{
+			this.scene.a.ctx.fillStyle = "#8080ff";
+			this.scene.a.ctx.fillRect(0, 0, 512, 512);
+			
+			this.scene.a.ctx.fillStyle = "#fff";
+			this.scene.a.ctx.font = "100px arial";
+			
+			a = _gfx.scene.activeCamera.inputs.attached.deviceOrientation._alpha;
+			b = _gfx.scene.activeCamera.inputs.attached.deviceOrientation._beta;
+			c = _gfx.scene.activeCamera.inputs.attached.deviceOrientation._gamma;
+			
+			if (a != 0 || b != 0 || c != 0)
+			{
+				this.scene.orientationWorking = true;
+				
+				if (c < 0)
+				{
+					c = c + 90;
+				}
+				else
+				{
+					c = c - 90;
+				}
+				
+				if (c < 0)
+				{
+					a = a - 180;
+					
+					if (b < 0)
+					{
+						b += 180;
+					}
+					else
+					{
+						b += -180;
+					}
+					
+					b = b * -1;
+				}
+				
+				a = a - 90;
+			}
+			
+			this.orientationA = a;
+			this.orientationB = b;
+			this.orientationC = c;
+			
+			this.scene.a.ctx.fillText("a " + Math.round(_gfx.scene.activeCamera.inputs.attached.deviceOrientation._alpha) + " " + Math.round(a), 10, 100);
+			this.scene.a.ctx.fillText("b " + Math.round(_gfx.scene.activeCamera.inputs.attached.deviceOrientation._beta) + " " + Math.round(b), 10, 200);
+			this.scene.a.ctx.fillText("c " + Math.round(_gfx.scene.activeCamera.inputs.attached.deviceOrientation._gamma) + " " + Math.round(c), 10, 300);
+			
+			this.scene.a.texture.update();
 		}
 		
 		if (this.activeSceneIndex == 1)
