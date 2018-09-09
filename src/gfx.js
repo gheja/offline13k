@@ -8,7 +8,6 @@ class Gfx
 		this.activeSceneIndex = null;
 		this.scene = null;
 		this.vr = null;
-		this.mat2 = null; // << remove this
 		this.materials = [];
 		// this.shadowGenerator = null;
 		
@@ -260,8 +259,6 @@ class Gfx
 		
 		// === street ===
 		
-		this.mat2 = this.quickMaterial(0.2, 0.8, 1.0, 1.0, scene);
-		
 		// this.shadowGenerator = new BABYLON.ShadowGenerator(1024, light1);
 		// this.shadowGenerator.useBlurExponentialShadowMap = true;
 		// this.shadowGenerator.blurKernel = 32;
@@ -270,7 +267,7 @@ class Gfx
 		plane.position.y = 0;
 		plane.position.z = 20;
 		// plane.receiveShadows = true;
-		plane.material = this.mat2;
+		plane.material = this.quickMaterial(0.2, 0.8, 1.0, 1.0, scene);
 		plane.rotation.x = _rotation(0.25);
 		
 		this.placeObject(OBJ_DESK, { x: -100, y: 0, z: 0.3 }, { x: 0, y: _rotation(0.02), z: 0 });
