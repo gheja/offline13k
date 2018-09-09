@@ -71,14 +71,8 @@ class GameObjectPlayer extends GameObjectHuman
 		
 		_gfx.scene.activeCamera.position.x = this.gfxObject.position.x;
 		_gfx.scene.activeCamera.position.y = this.gfxObject.position.y + 2.3;
-		_gfx.scene.activeCamera.position.z = this.gfxObject.position.z - 1.5;
+		_gfx.scene.activeCamera.position.z = this.gfxObject.position.z - 3;
 		
-		if (_gfx.scene.vr.isInVRMode)
-		{
-			_gfx.scene.activeCamera.position.z += -1.5;
-		}
-		
-		this.updateAnimation();
 		this.updateLimbs(false);
 	}
 	
@@ -189,6 +183,8 @@ class GameObjectPlayer extends GameObjectHuman
 				this.animationStartStop([ 0 ], [ 1, 2, 3 ]);
 			}
 		}
+		
+		this.updateAnimation();
 		
 		this.updateObstacles();
 		this.checkCollision();
