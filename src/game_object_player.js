@@ -169,7 +169,7 @@ class GameObjectPlayer extends GameObjectHuman
 		
 		if (this.mapY > 100)
 		{
-			this.mapY = 0;
+			_gfx.switchScene(0);
 		}
 		
 		if (this.timeJumpCooldown > 0)

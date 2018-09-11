@@ -26,7 +26,7 @@ class Gfx
 		this.scene = this.createScene();
 		this.scene.activeCamera.inputs.clear();
 		
-		this.switchScene(0);
+		this.switchScene(2);
 		
 		this.engine.runRenderLoop(this.onRenderLoop.bind(this));
 		bindEvent(_canvas, "click", this.onClick.bind(this));
@@ -323,6 +323,8 @@ class Gfx
 		this.placeObject(OBJ_FLOOR_WARNING, { x: -100 - 5, y: 0, z: 2 }, { x: 0, y: _rotation(-0.2), z: 0 });
 		
 		this.placeObject(OBJ_DESK, { x: -100, y: 0, z: 0.4 }, { x: 0, y: _rotation(0.02), z: 0 });
+		
+		this.addSphere(-100, 2.5, 6.7, "Test", function() { _gfx.switchScene(1); }, null, null, 1);
 		
 		
 		// === street ===
