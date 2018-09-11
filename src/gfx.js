@@ -14,6 +14,9 @@ class Gfx
 		this.orientationB = 0;
 		this.orientationC = 0;
 		this.spheres = [];
+		this.router = {
+			objects: []
+		};
 		// this.shadowGenerator = null;
 		
 		this.objectPrototypes = {};
@@ -89,7 +92,7 @@ class Gfx
 			this.scene.fogEnd = 20;
 			this.scene.light2.setEnabled(true);
 		}
-		else
+		else if (index == 1)
 		{
 			// street
 			this.scene.clearColor = new BABYLON.Color3(0.38, 0.75, 0.9);
@@ -97,6 +100,15 @@ class Gfx
 			this.scene.fogStart = 20;
 			this.scene.fogEnd = 50;
 			this.scene.light3.setEnabled(true);
+		}
+		else
+		{
+			// router
+			this.scene.clearColor = new BABYLON.Color3(0.9, 0.9, 0.9);
+			this.scene.fogColor = new BABYLON.Color3(0.9, 0.9, 0.9);
+			this.scene.fogStart = 10;
+			this.scene.fogEnd = 20;
+			// this.scene.light2.setEnabled(true);
 		}
 	}
 	
@@ -351,6 +363,26 @@ class Gfx
 		plane.material = this.quickMaterial(0.2, 0.8, 1.0, 1.0, scene);
 		plane.rotation.x = _rotation(0.25);
 		
+		
+		// === router ===
+		
+		plane = BABYLON.Mesh.CreatePlane("", 100, scene);
+		plane.position.x = 100;
+		plane.position.y = 0;
+		plane.position.z = 20;
+		// plane.receiveShadows = true;
+		plane.material = this.quickMaterial(0.8, 0.8, 0.8, 1.0, scene);
+		plane.rotation.x = _rotation(0.25);
+		
+		this.router.objects = [];
+		
+		this.router.objects.push(this.placeObject(OBJ_ROUTER_BOX, { x: 100 - 0.125, y: 1, z: 1 }, {}));
+		this.router.objects.push(this.placeObject(OBJ_ROUTER_PORT_ETH, { x: 100 - 0.125 + 0, y: 1, z: 1 }, {}));
+		this.router.objects.push(this.placeObject(OBJ_ROUTER_PORT_ETH, { x: 100 - 0.125 + 0.05, y: 1, z: 1 }, {}));
+		this.router.objects.push(this.placeObject(OBJ_ROUTER_PORT_NONE, { x: 100 - 0.125 + 0.10, y: 1, z: 1 }, {}));
+		this.router.objects.push(this.placeObject(OBJ_ROUTER_PORT_POWER, { x: 100 - 0.125 + 0.15, y: 1, z: 1 }, {}));
+		this.router.objects.push(this.placeObject(OBJ_ROUTER_PLUG_POWER, { x: 100 - 0.125 + 0.15, y: 1, z: 1 }, { x: 0, y: _rotation(0.5), z: 0 }));
+		
 		scene.onBeforeAnimationsObservable.add(this.onUpdate.bind(this));
 		
 		scene.vr = scene.createDefaultVRExperience();
@@ -475,14 +507,12 @@ class Gfx
 		}
 		else if (this.activeSceneIndex == 1)
 		{
-			tickCatchUp();
 			_player.updateObjects();
 		}
 		else
 		{
-			// office.frame();
-			_gfx.scene.activeCamera.position.x = -100;
-			_gfx.scene.activeCamera.position.y = 1.4;
+			_gfx.scene.activeCamera.position.x = 100;
+			_gfx.scene.activeCamera.position.y = 1.2;
 			_gfx.scene.activeCamera.position.z = 0;
 		}
 	}
