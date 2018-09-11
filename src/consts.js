@@ -3,6 +3,7 @@
 const TPS = 60;
 const FPS = 60;
 const DEV_BUILD = true;
+const PI2 = Math.PI * 2;
 
 const LEVEL_WIDTH = 14;
 const LEVEL_HEIGHT = 100;

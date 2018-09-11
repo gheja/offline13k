@@ -52,10 +52,11 @@ class Gfx
 	
 	addSphere(x, y, z, text, clickCallback, hoverEnterCallback, hoverExitCallback, sceneIndex)
 	{
-		let a;
+		let a, diameter;
 		
-		// a = this.placeObject(OBJ_CLICKABLE_SPHERE, { x: x, y: y, z: z }, {});
-		a = BABYLON.MeshBuilder.CreateSphere("sphere", { diameter: 0.2, segments: 1 }, this.scene);
+		diameter = 0.05;
+		
+		a = BABYLON.MeshBuilder.CreateSphere("sphere", { diameter: diameter, segments: 1 }, this.scene);
 		a.convertToFlatShadedMesh();
 		a.position.x = x;
 		a.position.y = y;
@@ -63,6 +64,7 @@ class Gfx
 		
 		this.spheres.push({
 			originalY: y,
+			diameter: diameter,
 			text: text,
 			clickCallback: clickCallback,
 			hoverEnterCallback: hoverEnterCallback,
@@ -70,6 +72,8 @@ class Gfx
 			sceneIndex: sceneIndex,
 			gfxObject: a
 		});
+		
+		return this.spheres[this.spheres.length - 1];
 	}
 	
 	message(s)
@@ -429,7 +433,7 @@ class Gfx
 		for (i=0; i<this.spheres.length; i++)
 		{
 			this.spheres[i].gfxObject.rotation.y -= 0.02;
-			this.spheres[i].gfxObject.position.y = this.spheres[i].originalY + Math.sin(this.spheres[i].gfxObject.rotation.y) * 0.1;
+			this.spheres[i].gfxObject.position.y = this.spheres[i].originalY + Math.sin(this.spheres[i].gfxObject.rotation.y) * this.spheres[i].diameter / 4;
 		}
 		
 		this.stepRouterRotation();
