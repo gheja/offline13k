@@ -65,6 +65,7 @@ function tick()
 	_ticks++;
 	
 	_player.tick();
+	_gfx.tick();
 }
 
 function tickInit()

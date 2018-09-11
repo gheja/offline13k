@@ -349,6 +349,17 @@ class Gfx
 		return scene;
 	}
 	
+	tick()
+	{
+		let i;
+		
+		for (i=0; i<this.spheres.length; i++)
+		{
+			this.spheres[i].gfxObject.rotation.y -= 0.02;
+			this.spheres[i].gfxObject.position.y = this.spheres[i].originalY + Math.sin(this.spheres[i].gfxObject.rotation.y) * 0.1;
+		}
+	}
+	
 	onClick()
 	{
 		let i, pickResult;
@@ -443,7 +454,16 @@ class Gfx
 			this.orientationC = c;
 		}
 		
-		if (this.activeSceneIndex == 1)
+		tickCatchUp();
+		
+		if (this.activeSceneIndex == 0)
+		{
+			// office.frame();
+			_gfx.scene.activeCamera.position.x = -100;
+			_gfx.scene.activeCamera.position.y = 1.4;
+			_gfx.scene.activeCamera.position.z = 0;
+		}
+		else if (this.activeSceneIndex == 1)
 		{
 			tickCatchUp();
 			_player.updateObjects();
