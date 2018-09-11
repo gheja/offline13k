@@ -15,7 +15,9 @@ class Gfx
 		this.orientationC = 0;
 		this.spheres = [];
 		this.router = {
-			objects: []
+			objects: [],
+			rotationY: 0,
+			rotationYTarget: - Math.PI / 2
 		};
 		// this.shadowGenerator = null;
 		
@@ -254,7 +256,7 @@ class Gfx
 	
 	createScene()
 	{
-		let scene, plane, camera, a;
+		let scene, plane, camera, a, i;
 		
 		scene = new BABYLON.Scene(this.engine);
 		scene.ambientColor = new BABYLON.Color3(0.38, 0.75, 0.9);
@@ -383,12 +385,42 @@ class Gfx
 		this.router.objects.push(this.placeObject(OBJ_ROUTER_PORT_POWER, { x: 100 - 0.125 + 0.15, y: 1, z: 1 }, {}));
 		this.router.objects.push(this.placeObject(OBJ_ROUTER_PLUG_POWER, { x: 100 - 0.125 + 0.15, y: 1, z: 1 }, { x: 0, y: _rotation(0.5), z: 0 }));
 		
+		for (i=0; i<this.router.objects.length; i++)
+		{
+			this.router.objects[i].originalPosition = _copy(this.router.objects[i].position);
+			this.router.objects[i].originalRotation = _copy(this.router.objects[i].rotation);
+		}
+		
+		this.addSphere(100, 1.3, 1, "Test", function() { _gfx.router.rotationYTarget -= Math.PI; }, null, null, 1);
+		
 		scene.onBeforeAnimationsObservable.add(this.onUpdate.bind(this));
 		
 		scene.vr = scene.createDefaultVRExperience();
 		scene.vr.enableInteractions();
 		
 		return scene;
+	}
+	
+	stepRouterRotation()
+	{
+		let i, n, a, b, c, center;
+		
+		this.router.rotationY += (this.router.rotationYTarget - this.router.rotationY) * 0.1;
+		n = this.router.rotationY;
+		
+		center = { x: 100, y: 1, z: 1.2 };
+		
+		for (i=0; i<this.router.objects.length; i++)
+		{
+			a = this.router.objects[i];
+			
+			b = a.originalPosition.x - center.x;
+			c = a.originalPosition.z - center.z;
+			
+			a.position.x = center.x + b * Math.sin(n) + c * Math.cos(n);
+			a.position.z = center.z + b * Math.cos(n) + c * Math.sin(n);
+			a.rotation.y = a.originalRotation.y + n - Math.PI/2;
+		}
 	}
 	
 	tick()
@@ -400,6 +432,8 @@ class Gfx
 			this.spheres[i].gfxObject.rotation.y -= 0.02;
 			this.spheres[i].gfxObject.position.y = this.spheres[i].originalY + Math.sin(this.spheres[i].gfxObject.rotation.y) * 0.1;
 		}
+		
+		this.stepRouterRotation();
 	}
 	
 	onClick()
