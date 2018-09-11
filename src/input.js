@@ -241,22 +241,5 @@ class InputJS
 				}
 			}
 		}
-		
-/*
-		let s;
-		
-		s = "";
-		
-		for (i in this.inputs)
-		{
-			s += i + ": " + this.inputs[i].value + " " + (this.inputs[i].active ? "*active*" : "") + "\n";
-		}
-		
-		this.setValue("wheelX", 0);
-		this.setValue("wheelY", 0);
-		this.setValue("wheelZ", 0);
-		
-		document.getElementById("status").innerHTML = s;
-*/
 	}
 }
