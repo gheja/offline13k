@@ -13,6 +13,7 @@ class Gfx
 		this.orientationA = 0;
 		this.orientationB = 0;
 		this.orientationC = 0;
+		this.spheres = [];
 		// this.shadowGenerator = null;
 		
 		this.objectPrototypes = {};
@@ -28,19 +29,42 @@ class Gfx
 		this.switchScene(0);
 		
 		this.engine.runRenderLoop(this.onRenderLoop.bind(this));
-		
-		if (DEV_BUILD)
-		{
-			_canvas.addEventListener("click", function() {
-				let pickResult = _gfx.scene.pick(_gfx.scene.pointerX, _gfx.scene.pointerY);
-				if (pickResult.hit)
-				{
-					console.log(pickResult.pickedPoint.x + ", " + pickResult.pickedPoint.y + ", " + pickResult.pickedPoint.z);
-				}
-			});
-		}
-		
+		bindEvent(_canvas, "click", this.onClick.bind(this));
 		bindEvent(window, "resize", this.onResize.bind(this));
+	}
+	
+	selectNextSphere(dx, dy)
+	{
+	}
+	
+	selectSphere(px, py)
+	{
+	}
+	
+	setSphereHover()
+	{
+	}
+	
+	addSphere(x, y, z, text, clickCallback, hoverEnterCallback, hoverExitCallback, sceneIndex)
+	{
+		let a;
+		
+		// a = this.placeObject(OBJ_CLICKABLE_SPHERE, { x: x, y: y, z: z }, {});
+		a = BABYLON.MeshBuilder.CreateSphere("sphere", { diameter: 0.2, segments: 1 }, this.scene);
+		a.convertToFlatShadedMesh();
+		a.position.x = x;
+		a.position.y = y;
+		a.position.z = z;
+		
+		this.spheres.push({
+			originalY: y,
+			text: text,
+			clickCallback: clickCallback,
+			hoverEnterCallback: hoverEnterCallback,
+			hoverExitCallback: hoverExitCallback,
+			sceneIndex: sceneIndex,
+			gfxObject: a
+		});
 	}
 	
 	message(s)
@@ -323,6 +347,32 @@ class Gfx
 		scene.vr.enableInteractions();
 		
 		return scene;
+	}
+	
+	onClick()
+	{
+		let i, pickResult;
+		
+		pickResult = _gfx.scene.pick(_gfx.scene.pointerX, _gfx.scene.pointerY);
+		
+		if (pickResult.hit)
+		{
+			for (i=0; i<this.spheres.length; i++)
+			{
+				if (pickResult.pickedMesh == this.spheres[i].gfxObject)
+				{
+					if (this.spheres[i].clickCallback)
+					{
+						this.spheres[i].clickCallback.call();
+					}
+				}
+			}
+			
+			if (DEV_BUILD)
+			{
+				console.log(pickResult.pickedPoint.x + ", " + pickResult.pickedPoint.y + ", " + pickResult.pickedPoint.z);
+			}
+		}
 	}
 	
 	onInputSetupDone()
