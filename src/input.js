@@ -49,13 +49,17 @@ class InputJS
 		this.callbackMessage = callbackMessage;
 		
 		this.state = INPUT_STATE_FIRST_INPUT;
-		this.startTimer("Use any input.", this.inputFailed.bind(this), 5000);
+		this.startTimer("If you have an input device\nyou want to play with\nplease use it now.", this.inputFailed.bind(this), 10000);
 	}
 	
 	inputFailed()
 	{
-		this.state = INPUT_STATE_FINISHED;
-		this.callbackFailed.call();
+		this.startTimer("Timeout, skipping configuration.\nYou can still use gaze and mouse.", this.setupFailed.bind(this), 5000);
+	}
+	
+	clearMessage()
+	{
+		this.callbackMessage.call(_gfx, ""); // TODO: meh
 	}
 	
 	newControlConfigured(input)
@@ -92,19 +96,29 @@ class InputJS
 			if (this.controls[i].input === null)
 			{
 				this.state = INPUT_STATE_SETUP;
-				this.startTimer("Press a key for " + this.controls[i].text, this.skipNextInput.bind(this), 1000);
+				this.startTimer("Press a key for " + this.controls[i].text + "...", this.inputFailed.bind(this), 3000);
 				return;
 			}
 		}
 		
 		this.state = INPUT_STATE_FINISHED;
-		this.startTimer("Everything is configured, nice!", this.setupDone.bind(this), 1000);
+		this.startTimer("Everything is configured,\n nice!", this.setupDone.bind(this), 3000);
 	}
 	
 	setupDone()
 	{
 		this.clearWasActiveFlags();
 		this.state = INPUT_STATE_FINISHED;
+		this.clearMessage();
+		this.callbackDone.call();
+	}
+	
+	setupFailed()
+	{
+		this.state = INPUT_STATE_FINISHED;
+		this.callbackFailed.call();
+		
+		window.setTimeout(this.clearMessage.bind(this), 5000);
 	}
 	
 	setValue(key, value, saveDefault, twoWay)
@@ -158,7 +172,7 @@ class InputJS
 	{
 		let i;
 		
-		for (i=0; i<this.inputs.length; i++)
+		for (i in this.inputs)
 		{
 			this.inputs[i].wasActive = false;
 		}

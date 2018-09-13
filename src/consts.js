@@ -5,6 +5,10 @@ const FPS = 60;
 const DEV_BUILD = true;
 const PI2 = Math.PI * 2;
 
+const SCENE_OFFICE = 0;
+const SCENE_STREET = 1;
+const SCENE_ROUTER = 2;
+
 const LEVEL_WIDTH = 14;
 const LEVEL_HEIGHT = 100;
 
@@ -16,6 +20,9 @@ const OBJ_OBSTACLE_LOWER = 3;
 const OBJ_OBSTACLE_UPPER = 4;
 const OBJ_OBSTACLE_FULL = 5;
 const OBJ_EDGE = 6;
+const OBJ_ROAD1 = 7;
+const OBJ_ROAD2 = 8;
+const OBJ_ROAD3 = 9;
 
 const OBJ_PLAYER = 11;
 const OBJ_HAND = 12;
@@ -26,13 +33,20 @@ const OBJ_FLOOR_WARNING = 16;
 const OBJ_ROUTER_BOX = 17;
 const OBJ_ROUTER_PORT_NONE = 18;
 const OBJ_ROUTER_PORT_ETH = 19;
-const OBJ_ROUTER_PORT_POWER = 20;
-const OBJ_ROUTER_PLUG_NONE = 21;
-const OBJ_ROUTER_PLUG_ETH = 22;
-const OBJ_ROUTER_PLUG_POWER = 23;
+const OBJ_ROUTER_PORT_ETH2 = 20;
+const OBJ_ROUTER_PORT_POWER = 21;
+const OBJ_ROUTER_PLUG_NONE = 22;
+const OBJ_ROUTER_PLUG_ETH = 23;
+const OBJ_ROUTER_PLUG_ETH2 = 24;
+const OBJ_ROUTER_PLUG_POWER = 25;
+const OBJ_FOOT = 26;
+const OBJ_HEAD = 27;
 
 const OBJ_MODEL_FIRST = OBJ_OBSTACLE_LOWER;
 const OBJ_MODEL_LAST = OBJ_PLAYER - 1;
+
+const TILE_WIDTH = 1.8;
+const TILE_LENGTH = 3;
 
 const TILE_DISABLED = 0;
 const TILE_UNDECIDED = 1;
@@ -48,3 +62,4 @@ const TIME_DUCK = 0.5 * TPS;
 const TIME_JUMP_COOLDOWN = 0.8 * TPS;
 const TIME_DUCK_COOLDOWN = 0.8 * TPS;
 const MOVE_SPEED_X = 3 / TPS;
+

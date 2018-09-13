@@ -28,6 +28,6 @@ class GameObjectObstacle extends GameObject
 		// this.collided = this.distance < _obstacles[i].radius;
 		
 		// distance of player's center of the edge of this object
-		this.distance = Math.max(distance(_player.mapX, _player.mapY, this.mapX, this.mapY) - this.radius, 0);
+		this.distance = Math.max(distance(_player.gfxObject.position.x, _player.gfxObject.position.z, this.gfxObject.position.x, this.gfxObject.position.z) - this.radius, 0);
 	}
 }

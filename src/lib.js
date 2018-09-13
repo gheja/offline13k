@@ -30,6 +30,26 @@ function _merge(obj, settings)
 	}
 }
 
+function _merge2(obj, settings)
+{
+	let i;
+	
+	if (typeof settings != "object" || settings === null)
+	{
+		return;
+	}
+	
+	for (i in settings)
+	{
+		if (!settings.hasOwnProperty(i))
+		{
+			continue;
+		}
+		
+		obj[i] = settings[i];
+	}
+}
+
 function lerp(a, b, x)
 {
 	return a + (b - a) * x;

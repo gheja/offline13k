@@ -8,12 +8,12 @@ class Level
 		this.mapObjects = [];
 	}
 	
-	generate()
+	generate(seed)
 	{
 		let x, y, a, b, map, baseSegment, baseSegment2, rand1, rand2;
 		
-		rand1 = new AlmostRandom(595);
-		rand2 = new AlmostRandom(7611);
+		rand1 = new AlmostRandom(seed);
+		rand2 = new AlmostRandom(Math.floor(seed * 953));
 		
 		this.map = [];
 		this.mapObjects = [];
@@ -76,19 +76,45 @@ class Level
 	
 	load()
 	{
-		let x, y, a;
-		
-		_obstacles = [];
+		let x, y, a, b, rotate;
 		
 		for (y=0; y<LEVEL_HEIGHT; y++)
 		{
 			for (x=0; x<LEVEL_WIDTH; x++)
 			{
+				a = this.map[y][x];
+				b = null
+				if (a == 4)
+				{
+					b = OBJ_ROAD2;
+				}
+				else if (a == 2)
+				{
+					b = OBJ_ROAD3;
+				}
+				else if (a == 3)
+				{
+					b = OBJ_ROAD1;
+				}
+				
+				if (x < 7)
+				{
+					rotate = _rotation(0.5);
+				}
+				else
+				{
+					rotate = 0;
+				}
+				if (b !== null)
+				{
+					_levelGfxObjects.push(_gfx.placeObject(b, { x: x * TILE_WIDTH, y: 0, z: y * TILE_LENGTH }, { x: 0, y: rotate, z: 0 }));
+				}
+				
 				a = this.mapObjects[y][x];
 				
 				if (a >= OBJ_MODEL_FIRST && a <= OBJ_MODEL_LAST)
 				{
-					_obstacles.push(new GameObjectObstacle(x * 2, y * 3, 1.5, a));
+					_obstacles.push(new GameObjectObstacle(x * TILE_WIDTH, y * TILE_LENGTH, 1.5, a));
 				}
 			}
 		}

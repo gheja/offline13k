@@ -11,11 +11,11 @@ class GameObjectHuman extends GameObject
 		
 		this.gfxObject = _gfx.placeObject(OBJ_PLAYER, {}, {});
 		
-		this.limbs.push({ gfxObject: _gfx.placeObject(OBJ_HAND, {}, {}), pad: { x: 0, y: 0, z: 0 }, padTarget: { x: -0.2, y: 0.0, z: 0 }});
-		this.limbs.push({ gfxObject: _gfx.placeObject(OBJ_HAND, {}, {}), pad: { x: 0, y: 0, z: 0 }, padTarget: { x:  0.2, y: 0.0, z: 0 }});
+		this.limbs.push({ gfxObject: _gfx.placeObject(OBJ_FOOT, {}, {}), pad: { x: 0, y: 0, z: 0 }, padTarget: { x: -0.2, y: 0.0, z: 0 }});
+		this.limbs.push({ gfxObject: _gfx.placeObject(OBJ_FOOT, {}, {}), pad: { x: 0, y: 0, z: 0 }, padTarget: { x:  0.2, y: 0.0, z: 0 }});
 		this.limbs.push({ gfxObject: _gfx.placeObject(OBJ_HAND, {}, {}), pad: { x: 0, y: 0, z: 0 }, padTarget: { x: -0.3, y: 1.0, z: 0 }});
 		this.limbs.push({ gfxObject: _gfx.placeObject(OBJ_HAND, {}, {}), pad: { x: 0, y: 0, z: 0 }, padTarget: { x:  0.3, y: 1.0, z: 0 }});
-		this.limbs.push({ gfxObject: _gfx.placeObject(OBJ_HAND, {}, {}), pad: { x: 0, y: 0, z: 0 }, padTarget: { x:  0.0, y: 1.8, z: 0 }});
+		this.limbs.push({ gfxObject: _gfx.placeObject(OBJ_HEAD, {}, {}), pad: { x: 0, y: 0, z: 0 }, padTarget: { x:  0.0, y: 1.8, z: 0 }});
 		
 		// running
 		this.animations.push({
@@ -71,6 +71,17 @@ class GameObjectHuman extends GameObject
 			// TODO: flatten this?
 			data: [
 				[  0, [ 0, -0.2,  0.1,  0.3 ], [ 1,  0.2,  0.1, -0.3 ], [ 2,  -0.5,  1.9,  0.3 ], [ 3,  0.5, 1.9, 0.3 ], [ 4,  0.0, 1.8, 0.0 ] ],
+			]
+		});
+		
+		// collision
+		this.animations.push({
+			frame: 0,
+			length: 1,
+			active: false,
+			// TODO: flatten this?
+			data: [
+				[  0, [ 0, -0.2,  0.5, -0.5 ], [ 1,  0.2,  0.5, -0.5 ], [ 2,  -0.5,  1.9,  0.7 ], [ 3,  0.5, 1.9, 0.7 ], [ 4,  0.0, 1.8, 0.5 ] ],
 			]
 		});
 		

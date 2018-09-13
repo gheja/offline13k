@@ -73,7 +73,14 @@ var BABYLON = {
 	},
 	"PointLight": function () {},
 	"SpotLight": function () {},
-	"HemisphericLight": function () {},
+	"HemisphericLight": function () {
+		return {
+			"diffuse": 0,
+			"specular": 0,
+			"groundColor": 0,
+			"intensity": 0
+		};
+	},
 	"DirectionalLight": function () {},
 	"ShadowGenerator": function () {
  		return {
@@ -105,7 +112,13 @@ var BABYLON = {
 		};
 	},
 	"TargetCamera": function () {},
-	"FreeCamera": function () {},
+	"FreeCamera": function () {
+		return {
+			"minZ": 0,
+			"position": { "x": 0, "y": 0, "z": 0 },
+			"rotation": { "x": 0, "y": 0, "z": 0 }
+		};
+	},
 	"FollowCamera": function () {},
 	"TouchCamera": function () {},
 	"ArcRotateCamera": function () {},
@@ -153,6 +166,13 @@ var BABYLON = {
 	"Scene": function () {
 		return {
 			"onBeforeAnimationsObservable": {},
+			"enableInteractions": function() {},
+			"onNewMeshSelected": {
+				"add": function() {}
+			},
+			"onSelectedMeshUnselected": {
+				"add": function() {}
+			},
 			"createDefaultVRExperience": function() {
 				return {
 					"currentVRCamera": {},
@@ -196,7 +216,9 @@ var BABYLON = {
 						"x": 0,
 						"y": 0,
 						"z": 0
-					}
+					},
+					"pickedMesh": {},
+					"hit": false
 				};
 			}
 		};
@@ -212,7 +234,8 @@ var BABYLON = {
 					"blurKernel": 0
 				};
 			},
-			"convertToFlatShadedMesh": function() {}
+			"convertToFlatShadedMesh": function() {},
+			"dispose": function() {}
 		};
 	},
 	"SubMesh": function () {},
@@ -222,7 +245,15 @@ var BABYLON = {
 	"RenderTargetTexture": function () {},
 	"ProceduralTexture": function () {},
 	"MirrorTexture": function () {},
-	"DynamicTexture": function () {},
+	"DynamicTexture": function () {
+		return {
+			"wrapU": 0,
+			"wrapV": 0,
+			"uScale": 0,
+			"vScale": 0,
+			"hasAlpha": false
+		};
+	},
 	"VideoTexture": function () {},
 	"CustomProceduralTexture": function () {},
 	"WoodProceduralTexture": function () {},
@@ -238,7 +269,8 @@ var BABYLON = {
 	"FresnelParameters": function () {},
 	"StandardMaterial": function () {
 		return {
-			"diffuseColor": 0
+			"diffuseColor": 0,
+			"diffuseTexture": null
 		};
 	},
 	"MultiMaterial": function () {
@@ -368,7 +400,8 @@ var BABYLON = {
 	"Polygon": function () {},
 	"PolygonMeshBuilder": function () {
 		return {
-			"CreateLines": function() {}
+			"CreateLines": function() {},
+			"CreateSphere": function() {}
 		};
 	},
 	"SimplificationSettings": function () {},

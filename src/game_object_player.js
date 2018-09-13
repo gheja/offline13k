@@ -6,15 +6,14 @@ class GameObjectPlayer extends GameObjectHuman
 	{
 		super();
 		
-		this.mapX = 7;
-		this.mapY = 0.2;
-		this.mapZ = 0;
 		this.speedY = 0;
 		this.speedX = 0;
 		this.speedZ = 0;
 		this.timeJumpCooldown = 0;
 		this.timeDuckCooldown = 0;
 		this.targetMapX = 7;
+		
+		this.collided = false;
 	}
 	
 	init()
@@ -41,44 +40,67 @@ class GameObjectPlayer extends GameObjectHuman
 			{
 				if (this.timeDuckCooldown == 0 && _obstacles[i].blockUp)
 				{
-					console.log("hit");
+					this.handleCollision();
 				}
 				else if (this.timeJumpCooldown == 0 && _obstacles[i].blockDown)
 				{
-					console.log("hit");
-				}
-				else
-				{
-					console.log("almost");
+					this.handleCollision();
 				}
 			}
+/*
 			else if (_obstacles[i].distance <= 2)
 			{
 				// if it is in the current or next lane
 				if (Math.round(this.mapX) == Math.round(_obstacles[i].mapX) || Math.round(this.targetMapX) == Math.round(_obstacles[i].mapX))
 				{
-					console.log("near");
+					// near
 				}
 			}
+*/
 		}
 	}
 	
 	updateObjects()
 	{
-		this.gfxObject.position.x = this.mapX * 2;
+		this.gfxObject.position.x = this.mapX * TILE_WIDTH;
 		this.gfxObject.position.y = this.mapZ;
-		this.gfxObject.position.z = this.mapY * 3;
+		this.gfxObject.position.z = this.mapY * TILE_LENGTH;
 		
 		_gfx.scene.activeCamera.position.x = this.gfxObject.position.x;
 		_gfx.scene.activeCamera.position.y = this.gfxObject.position.y + 2.3;
-		_gfx.scene.activeCamera.position.z = this.gfxObject.position.z - 3;
+		_gfx.scene.activeCamera.position.z = this.gfxObject.position.z - 5;
 		
 		this.updateLimbs(false);
+	}
+	
+	handleCollision()
+	{
+		this.collided = true;
+		this.animationStartStop([ 4 ], [ 0, 1, 2, 3 ]);
+		gameLost();
+	}
+	
+	restart()
+	{
+		this.animationStartStop([ 0 ], [ 0, 1, 2, 3, 4 ]);
+		this.collided = false;
+		this.gfxObject.position.x = 0;
+		this.gfxObject.position.y = 0;
+		this.gfxObject.position.z = 0;
+		this.mapX = 7;
+		this.mapY = 0.2;
+		this.mapZ = 0;
 	}
 	
 	tick()
 	{
 		let a, b, mapXFraction;
+		
+		if (this.collided)
+		{
+			this.updateAnimation();
+			return;
+		}
 		
 		a = _input.query();
 		
@@ -169,7 +191,8 @@ class GameObjectPlayer extends GameObjectHuman
 		
 		if (this.mapY > 100)
 		{
-			_gfx.switchScene(0);
+			_gfx.switchScene(SCENE_ROUTER);
+			switchAudio(2);
 		}
 		
 		if (this.timeJumpCooldown > 0)
